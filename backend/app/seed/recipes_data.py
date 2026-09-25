@@ -26,7 +26,7 @@ RECIPES = [
         "difficulty": "easy",
         "cuisine": "maghrebi",
         "category": "soup",
-        "diets": ["halal"],
+        "diets": ["halal", "no-pork", "no-alcohol"],
         "calories": 320,
         "ingredients": [
             ("Frik (blé vert concassé)", "Freekeh (cracked green wheat)", "فريك", 120, "g"),
@@ -86,7 +86,7 @@ RECIPES = [
         "difficulty": "easy",
         "cuisine": "maghrebi",
         "category": "main",
-        "diets": ["halal", "gluten-free"],
+        "diets": ["halal", "no-pork", "no-alcohol", "gluten-free"],
         "calories": 480,
         "ingredients": [
             ("Blanc de poulet", "Chicken breast", "صدر دجاج", 600, "g"),
@@ -145,7 +145,7 @@ RECIPES = [
         "difficulty": "medium",
         "cuisine": "mediterranean",
         "category": "main",
-        "diets": ["halal", "vegetarian", "vegan", "gluten-free"],
+        "diets": ["halal", "no-pork", "no-alcohol", "vegetarian", "vegan", "gluten-free"],
         "calories": 210,
         "ingredients": [
             ("Courgettes", "Courgettes", "كوسة", 2, "piece"),
@@ -200,7 +200,7 @@ RECIPES = [
         "difficulty": "easy",
         "cuisine": "world",
         "category": "main",
-        "diets": ["halal"],
+        "diets": ["halal", "no-pork", "no-alcohol"],
         "calories": 430,
         "ingredients": [
             ("Hauts de cuisse de poulet", "Boneless chicken thighs", "أفخاذ دجاج بلا عظم", 700, "g"),
@@ -258,7 +258,7 @@ RECIPES = [
         "difficulty": "easy",
         "cuisine": "mediterranean",
         "category": "soup",
-        "diets": ["halal", "vegetarian", "gluten-free"],
+        "diets": ["halal", "no-pork", "no-alcohol", "vegetarian", "gluten-free"],
         "calories": 240,
         "ingredients": [
             ("Champignons de Paris", "Button mushrooms", "فطر", 500, "g"),
@@ -316,7 +316,7 @@ RECIPES = [
         "difficulty": "medium",
         "cuisine": "mediterranean",
         "category": "main",
-        "diets": ["halal"],
+        "diets": ["halal", "no-pork", "no-alcohol"],
         "calories": 610,
         "ingredients": [
             ("Feuilles de lasagne", "Lasagna sheets", "أوراق لازانيا", 250, "g"),
@@ -376,7 +376,7 @@ RECIPES = [
         "difficulty": "easy",
         "cuisine": "world",
         "category": "soup",
-        "diets": ["halal", "vegetarian", "vegan", "gluten-free"],
+        "diets": ["halal", "no-pork", "no-alcohol", "vegetarian", "vegan", "gluten-free"],
         "calories": 180,
         "ingredients": [
             ("Potiron", "Pumpkin", "قرع", 800, "g"),
@@ -429,7 +429,7 @@ RECIPES = [
         "difficulty": "medium",
         "cuisine": "mediterranean",
         "category": "dessert",
-        "diets": ["halal", "vegetarian"],
+        "diets": ["halal", "no-pork", "no-alcohol", "vegetarian"],
         "calories": 420,
         "ingredients": [
             ("Mascarpone", "Mascarpone", "ماسكاربوني", 250, "g"),
@@ -487,7 +487,7 @@ RECIPES = [
         "difficulty": "hard",
         "cuisine": "world",
         "category": "main",
-        "diets": ["halal", "gluten-free"],
+        "diets": ["halal", "no-pork", "no-alcohol", "gluten-free"],
         "calories": 690,
         "ingredients": [
             ("Côte de bœuf", "Rib steak", "ضلع لحم بقري", 800, "g"),
@@ -546,7 +546,7 @@ RECIPES = [
         "difficulty": "easy",
         "cuisine": "world",
         "category": "dessert",
-        "diets": ["halal", "vegetarian"],
+        "diets": ["halal", "no-pork", "no-alcohol", "vegetarian"],
         "calories": 290,
         "ingredients": [
             ("Bananes bien mûres", "Very ripe bananas", "موز ناضج جداً", 3, "piece"),
@@ -599,7 +599,7 @@ RECIPES = [
         "difficulty": "easy",
         "cuisine": "mediterranean",
         "category": "salad",
-        "diets": ["halal", "vegetarian", "vegan", "gluten-free"],
+        "diets": ["halal", "no-pork", "no-alcohol", "vegetarian", "vegan", "gluten-free"],
         "calories": 120,
         "ingredients": [
             ("Laitue", "Lettuce", "خس", 1, "piece"),
@@ -646,7 +646,7 @@ RECIPES = [
         "difficulty": "easy",
         "cuisine": "world",
         "category": "drink",
-        "diets": ["halal", "vegetarian", "vegan", "gluten-free"],
+        "diets": ["halal", "no-pork", "no-alcohol", "vegetarian", "vegan", "gluten-free"],
         "calories": 90,
         "ingredients": [
             ("Oranges", "Oranges", "برتقال", 3, "piece"),

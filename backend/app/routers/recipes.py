@@ -54,10 +54,13 @@ def list_recipes(
     if diet:
         query = query.where(cast(Recipe.diets, String).like(f'%"{diet}"%'))
     if max_minutes:
-        query = query.where(Recipe.prep_minutes + Recipe.cook_minutes <= max_minutes)
+        minutes = func.coalesce(Recipe.prep_minutes, 0) + func.coalesce(Recipe.cook_minutes, 0)
+        known = Recipe.prep_minutes.is_not(None) | Recipe.cook_minutes.is_not(None)
+        query = query.where(known, minutes <= max_minutes)
 
     total = db.scalar(select(func.count()).select_from(query.subquery())) or 0
-    items = db.scalars(query.order_by(Recipe.id).offset((page - 1) * page_size).limit(page_size)).all()
+    order = (Recipe.source != "nuvia", Recipe.id)  # hand-written recipes first
+    items = db.scalars(query.order_by(*order).offset((page - 1) * page_size).limit(page_size)).all()
     return {"items": items, "total": total, "page": page, "page_size": page_size}
 
 

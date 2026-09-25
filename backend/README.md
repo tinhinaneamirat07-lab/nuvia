@@ -14,14 +14,27 @@ copy .env.example .env
 # Ouvre .env et remplace JWT_SECRET par le résultat de :
 python -c "import secrets; print(secrets.token_urlsafe(64))"
 
-alembic upgrade head        # crée la base de données
-python -m app.seed          # ajoute les 12 recettes de démo
+alembic upgrade head               # crée la base de données
+python -m app.seed                 # ajoute les 12 recettes écrites pour Nuvia (FR / EN / AR)
+python -m app.importers.themealdb  # importe ~300 vraies recettes avec photos (TheMealDB)
 uvicorn app.main:app --reload --port 8000
 ```
 
 Documentation interactive : http://localhost:8000/docs
 
 Sur macOS / Linux, remplace `.venv\Scripts\Activate.ps1` par `source .venv/bin/activate` et `copy` par `cp`.
+
+## Les recettes
+
+| Source | Nombre | Langues | Détails |
+| --- | --- | --- | --- |
+| `app/seed` (écrites pour Nuvia) | 12 | FR, EN, AR | Temps, portions, difficulté, calories |
+| [TheMealDB](https://www.themealdb.com) | ~300 | EN | Photo, origine (marocaine, italienne…), vidéo YouTube, lien source |
+
+- L'import peut être relancé : les recettes déjà présentes sont mises à jour, pas dupliquées.
+- Ce que TheMealDB ne fournit pas (temps, portions, difficulté) reste vide : rien n'est inventé.
+- Les étiquettes `no-pork` et `no-alcohol` sont calculées à partir des ingrédients.
+- La clé gratuite de TheMealDB est prévue pour le développement et les projets éducatifs : crédite TheMealDB là où ses recettes s'affichent, et un abonnement est nécessaire pour publier sur un store d'applications ([conditions](https://www.themealdb.com/terms_of_use.php)).
 
 ## Commandes utiles
 
@@ -30,6 +43,7 @@ Sur macOS / Linux, remplace `.venv\Scripts\Activate.ps1` par `source .venv/bin/a
 | `python -m pytest` | Lance les tests |
 | `ruff check app tests` | Vérifie le code |
 | `python -m app.create_admin email@exemple.com "Nom"` | Crée un compte admin |
+| `python -m app.importers.themealdb --limit 20` | Import rapide pour tester |
 | `alembic revision --autogenerate -m "message"` | Crée une migration après une modification des modèles |
 
 ## Endpoints (`/api/v1`)
@@ -40,7 +54,7 @@ Sur macOS / Linux, remplace `.venv\Scripts\Activate.ps1` par `source .venv/bin/a
 | POST | `/auth/refresh`, `/auth/logout`, `/auth/logout-all` | Session |
 | GET | `/auth/me` | Connecté |
 | PATCH, DELETE | `/users/me` | Connecté |
-| GET | `/recipes?q=&cuisine=&category=&difficulty=&diet=&max_minutes=&page=` | Public |
+| GET | `/recipes?q=&cuisine=&category=&difficulty=&diet=&max_minutes=&page=` | Public (`diet` : halal, no-pork, no-alcohol, vegetarian, vegan, gluten-free) |
 | GET | `/recipes/{slug}` | Public |
 | PUT, DELETE | `/recipes/{slug}/favorite` | Connecté |
 | GET | `/me/favorites` | Connecté |
