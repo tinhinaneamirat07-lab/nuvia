@@ -7,7 +7,7 @@ Assistant de cuisine personnel : il planifie les repas de la semaine, prépare l
 ```
 nuvia/
 ├── frontend/   React 19, Vite, TypeScript, Tailwind CSS v4, Motion, i18next (FR / EN / AR + RTL)
-└── backend/    FastAPI, PostgreSQL (à venir)
+└── backend/    FastAPI, SQLAlchemy, Alembic (voir backend/README.md)
 ```
 
 ## Lancer le front-end
@@ -28,7 +28,8 @@ npm run dev
 
 - [x] Landing page
 - [ ] Explorer, détail recette, authentification
-- [ ] API FastAPI + PostgreSQL (auth sécurisée, recettes, planner)
+- [x] API FastAPI : auth sécurisée, recettes, favoris, admin (SQLite en dev, prêt pour PostgreSQL)
+- [ ] Brancher le front-end sur l’API
 - [ ] Assistant IA (RAG) côté serveur
 - [ ] Planner, liste de courses, frigo
 - [ ] Tests, CI/CD, déploiement, PWA
