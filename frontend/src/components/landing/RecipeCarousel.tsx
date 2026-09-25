@@ -5,12 +5,16 @@ import { Link } from 'react-router-dom'
 import { RecipeCard } from '@/components/RecipeCard'
 import { Container } from '@/components/ui/Container'
 import { Reveal } from '@/components/ui/Reveal'
-import { recipes } from '@/data/recipes'
+import { fallbackRecipes } from '@/data/recipes'
+import { useFeaturedRecipes } from '@/features/recipes/queries'
 
 export function RecipeCarousel() {
   const { t, i18n } = useTranslation()
   const track = useRef<HTMLUListElement>(null)
   const rtl = i18n.dir() === 'rtl'
+  const { data } = useFeaturedRecipes()
+  // Landing page still works when the API is offline (e.g. a static preview).
+  const recipes = data?.items.length ? data.items : fallbackRecipes
 
   const scroll = (direction: 1 | -1) => {
     const el = track.current

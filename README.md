@@ -27,10 +27,9 @@ npm run dev
 ## Feuille de route
 
 - [x] Landing page
-- [ ] Explorer, détail recette, authentification
+- [x] Explorer, détail recette, connexion / inscription, favoris (branchés sur l’API)
 - [x] API FastAPI : auth sécurisée, recettes, favoris, admin (SQLite en dev, prêt pour PostgreSQL)
 - [x] Import de ~300 vraies recettes avec photos (TheMealDB)
-- [ ] Brancher le front-end sur l’API
 - [ ] Assistant IA (RAG) côté serveur
 - [ ] Planner, liste de courses, frigo
 - [ ] Tests, CI/CD, déploiement, PWA

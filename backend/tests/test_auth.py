@@ -13,6 +13,8 @@ def test_register_sets_httponly_cookies_and_hashes_password(client):
     cookies = res.headers.get_list("set-cookie")
     assert any(c.startswith("nuvia_access=") and "HttpOnly" in c for c in cookies)
     assert any(c.startswith("nuvia_refresh=") and "Path=/api/v1/auth" in c for c in cookies)
+    hint = next(c for c in cookies if c.startswith("nuvia_logged_in="))
+    assert "HttpOnly" not in hint and hint.startswith("nuvia_logged_in=1;")
 
     with SessionLocal() as db:
         user = db.scalar(select(User))
@@ -76,7 +78,9 @@ def test_refresh_rotates_and_detects_reuse(client):
 def test_logout_revokes_the_session(client):
     register(client)
     refresh_token = client.cookies.get("nuvia_refresh")
-    assert client.post("/api/v1/auth/logout").status_code == 204
+    logout = client.post("/api/v1/auth/logout")
+    assert logout.status_code == 204
+    assert any(c.startswith("nuvia_logged_in=") and "Max-Age=0" in c for c in logout.headers.get_list("set-cookie"))
 
     client.cookies.clear()
     client.cookies.set("nuvia_refresh", refresh_token, path="/api/v1/auth")

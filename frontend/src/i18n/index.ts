@@ -3,6 +3,9 @@ import { initReactI18next } from 'react-i18next'
 import fr from './fr'
 import en from './en'
 import ar from './ar'
+import appAr from './app.ar'
+import appEn from './app.en'
+import appFr from './app.fr'
 
 export const LANGUAGES = [
   { code: 'fr', label: 'Français', short: 'FR', dir: 'ltr' },
@@ -30,7 +33,11 @@ function applyDir(lng: string) {
 }
 
 i18n.use(initReactI18next).init({
-  resources: { fr: { translation: fr }, en: { translation: en }, ar: { translation: ar } },
+  resources: {
+    fr: { translation: { ...fr, ...appFr } },
+    en: { translation: { ...en, ...appEn } },
+    ar: { translation: { ...ar, ...appAr } },
+  },
   lng: initialLang(),
   fallbackLng: 'fr',
   interpolation: { escapeValue: false },

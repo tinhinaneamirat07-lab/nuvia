@@ -3,10 +3,10 @@ import { AnimatePresence, motion } from 'motion/react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { NavLink } from 'react-router-dom'
-import { ButtonLink } from '@/components/ui/Button'
 import { Container } from '@/components/ui/Container'
 import { Logo } from '@/components/ui/Logo'
 import { cn } from '@/lib/cn'
+import { AccountMenu } from './AccountMenu'
 import { LanguageSwitch } from './LanguageSwitch'
 import { ThemeToggle } from './ThemeToggle'
 
@@ -46,12 +46,7 @@ export function Navbar() {
         <div className="hidden items-center gap-2 md:flex">
           <LanguageSwitch />
           <ThemeToggle />
-          <ButtonLink to="/login" variant="ghost" size="sm">
-            {t('nav.login')}
-          </ButtonLink>
-          <ButtonLink to="/register" size="sm">
-            {t('nav.start')}
-          </ButtonLink>
+          <AccountMenu />
         </div>
 
         <div className="flex items-center gap-1 md:hidden">
@@ -90,14 +85,7 @@ export function Navbar() {
               ))}
               <div className="mt-3 flex items-center justify-between gap-3">
                 <LanguageSwitch />
-                <div className="flex gap-2">
-                  <ButtonLink to="/login" variant="secondary" size="sm" onClick={() => setOpen(false)}>
-                    {t('nav.login')}
-                  </ButtonLink>
-                  <ButtonLink to="/register" size="sm" onClick={() => setOpen(false)}>
-                    {t('nav.start')}
-                  </ButtonLink>
-                </div>
+                <AccountMenu onNavigate={() => setOpen(false)} />
               </div>
             </Container>
           </motion.div>

@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
+import type { Lang } from '@/api/types'
 
-export function useLang() {
+export function useLang(): Lang {
   const { i18n } = useTranslation()
-  const lang = (['fr', 'en', 'ar'].includes(i18n.language) ? i18n.language : 'fr') as 'fr' | 'en' | 'ar'
-  return lang
+  return (['fr', 'en', 'ar'].includes(i18n.language) ? i18n.language : 'fr') as Lang
 }

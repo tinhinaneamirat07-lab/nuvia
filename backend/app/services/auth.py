@@ -10,6 +10,9 @@ from app.deps import ACCESS_COOKIE, REFRESH_COOKIE
 from app.models import RefreshToken, User
 
 REFRESH_PATH = "/api/v1/auth"
+# Readable by JavaScript and holds no secret: it only tells the front-end a session exists,
+# so logged-out visitors never trigger pointless 401 requests.
+SESSION_HINT_COOKIE = "nuvia_logged_in"
 
 
 def start_session(db: Session, response: Response, user: User) -> None:
@@ -24,11 +27,21 @@ def start_session(db: Session, response: Response, user: User) -> None:
     cookie = {"httponly": True, "secure": settings.is_production, "samesite": "lax"}
     response.set_cookie(ACCESS_COOKIE, access, expires=access_exp, path="/", **cookie)
     response.set_cookie(REFRESH_COOKIE, refresh, expires=refresh_exp, path=REFRESH_PATH, **cookie)
+    response.set_cookie(
+        SESSION_HINT_COOKIE,
+        "1",
+        expires=refresh_exp,
+        path="/",
+        httponly=False,
+        secure=settings.is_production,
+        samesite="lax",
+    )
 
 
 def clear_session_cookies(response: Response) -> None:
     response.delete_cookie(ACCESS_COOKIE, path="/")
     response.delete_cookie(REFRESH_COOKIE, path=REFRESH_PATH)
+    response.delete_cookie(SESSION_HINT_COOKIE, path="/")
 
 
 def revoke_all(db: Session, user_id: int) -> None:

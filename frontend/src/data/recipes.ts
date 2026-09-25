@@ -1,17 +1,9 @@
-export type Difficulty = 'easy' | 'medium' | 'hard'
-type Localized = { fr: string; en: string; ar: string }
+import type { RecipeSummary } from '@/api/types'
 
-export type Recipe = {
-  slug: string
-  title: Localized
-  image: string
-  minutes: number
-  difficulty: Difficulty
-  cuisine: 'maghrebi' | 'mediterranean' | 'world'
-}
+type Seed = Pick<RecipeSummary, 'slug' | 'title' | 'difficulty' | 'cuisine'> & { image: string; minutes: number }
 
-// Sample data used until the FastAPI backend serves real recipes.
-export const recipes: Recipe[] = [
+// Shown on the landing page when the API cannot be reached (same recipes as the backend seed).
+const seeds: Seed[] = [
   { slug: 'chorba-frik', title: { fr: 'Chorba frik', en: 'Chorba frik', ar: 'شوربة فريك' }, image: '/img/chorba-frik.webp', minutes: 35, difficulty: 'easy', cuisine: 'maghrebi' },
   { slug: 'chicken-skewers', title: { fr: 'Brochettes de poulet au curcuma', en: 'Turmeric chicken skewers', ar: 'مشاوي دجاج بالكركم' }, image: '/img/chicken-skewers.webp', minutes: 40, difficulty: 'easy', cuisine: 'maghrebi' },
   { slug: 'ratatouille', title: { fr: 'Ratatouille en spirale', en: 'Spiral ratatouille', ar: 'راتاتوي حلزوني' }, image: '/img/ratatouille.webp', minutes: 70, difficulty: 'medium', cuisine: 'mediterranean' },
@@ -25,3 +17,13 @@ export const recipes: Recipe[] = [
   { slug: 'garden-salad', title: { fr: 'Salade du jardin', en: 'Garden salad', ar: 'سلطة الحديقة' }, image: '/img/garden-salad.webp', minutes: 15, difficulty: 'easy', cuisine: 'mediterranean' },
   { slug: 'citrus-mocktail', title: { fr: 'Citronnade orange et romarin', en: 'Orange rosemary cooler', ar: 'عصير البرتقال بإكليل الجبل' }, image: '/img/citrus-mocktail.webp', minutes: 10, difficulty: 'easy', cuisine: 'world' },
 ]
+
+export const fallbackRecipes: RecipeSummary[] = seeds.map(({ image, minutes, ...seed }) => ({
+  ...seed,
+  image_url: image,
+  total_minutes: minutes,
+  servings: null,
+  category: 'main',
+  origin: null,
+  diets: [],
+}))
