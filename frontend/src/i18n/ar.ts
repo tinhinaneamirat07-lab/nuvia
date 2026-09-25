@@ -4,6 +4,7 @@ const ar: Messages = {
   nav: {
     explore: 'استكشف',
     planner: 'المخطّط',
+    shopping: 'المشتريات',
     assistant: 'المساعد',
     login: 'تسجيل الدخول',
     start: 'ابدأ الآن',

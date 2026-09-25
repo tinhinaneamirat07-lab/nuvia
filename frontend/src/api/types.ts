@@ -63,3 +63,25 @@ export type RecipeFilters = {
   diet?: string
   max_minutes?: number
 }
+
+export type Slot = 'breakfast' | 'lunch' | 'dinner'
+
+export type PlanItem = {
+  id: number
+  day: string // YYYY-MM-DD
+  slot: Slot
+  servings: number
+  recipe: RecipeSummary
+}
+
+export type Aisle = 'produce' | 'meat' | 'dairy' | 'bakery' | 'pantry' | 'spices' | 'drinks' | 'other'
+
+export type ShoppingItem = {
+  id: number
+  name: Localized & { custom?: string }
+  quantity: number | null
+  unit: string | null
+  aisle: Aisle
+  checked: boolean
+  source: 'manual' | 'plan'
+}

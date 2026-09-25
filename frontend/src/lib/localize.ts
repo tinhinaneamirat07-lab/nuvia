@@ -22,6 +22,12 @@ const FRACTIONS: [number, string][] = [
 
 /** 1.5 -> "1½", 0.333 -> "⅓", 250 -> "250", 2.4 -> "2.4" */
 export function formatQuantity(value: number, locale: string): string {
+  const text = formatNumber(value, locale)
+  // In Arabic, "1½" would be displayed as "½1": isolate the number as left-to-right.
+  return locale.startsWith('ar') && /[^\d.,]/.test(text) ? `\u2066${text}\u2069` : text
+}
+
+function formatNumber(value: number, locale: string): string {
   const whole = Math.floor(value)
   const rest = value - whole
   if (value >= 10) return new Intl.NumberFormat(locale, { maximumFractionDigits: 0 }).format(value)

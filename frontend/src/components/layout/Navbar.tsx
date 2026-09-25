@@ -13,6 +13,7 @@ import { ThemeToggle } from './ThemeToggle'
 const links = [
   { to: '/explore', key: 'nav.explore' },
   { to: '/planner', key: 'nav.planner' },
+  { to: '/shopping', key: 'nav.shopping' },
   { to: '/assistant', key: 'nav.assistant' },
 ]
 

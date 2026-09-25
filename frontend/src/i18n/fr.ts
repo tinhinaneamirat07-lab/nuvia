@@ -2,6 +2,7 @@ const fr = {
   nav: {
     explore: 'Explorer',
     planner: 'Planner',
+    shopping: 'Courses',
     assistant: 'Assistant',
     login: 'Se connecter',
     start: 'Commencer',

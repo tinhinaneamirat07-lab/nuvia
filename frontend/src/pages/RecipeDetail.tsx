@@ -20,6 +20,7 @@ import {
 } from '@/components/ui/icons'
 import { StateMessage } from '@/components/ui/StateMessage'
 import { useMe } from '@/features/auth/queries'
+import { AddToPlanner } from '@/features/planner/AddToPlanner'
 import { useRecipe, useToggleFavorite } from '@/features/recipes/queries'
 import { StepTimer } from '@/features/recipes/StepTimer'
 import { useLang } from '@/hooks/useLocalized'
@@ -268,6 +269,7 @@ export default function RecipeDetail() {
 
           <div className="mt-8 flex flex-wrap gap-3">
             <FavoriteButton recipe={recipe} />
+            <AddToPlanner recipe={recipe} />
             {recipe.video_url && (
               <a href={recipe.video_url} target="_blank" rel="noreferrer" className={buttonClass({ variant: 'ghost' })}>
                 <YoutubeLogo size={20} weight="fill" className="text-red-600" />

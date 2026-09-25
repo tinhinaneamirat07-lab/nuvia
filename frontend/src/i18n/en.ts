@@ -4,6 +4,7 @@ const en: Messages = {
   nav: {
     explore: 'Explore',
     planner: 'Planner',
+    shopping: 'Shopping',
     assistant: 'Assistant',
     login: 'Log in',
     start: 'Get started',

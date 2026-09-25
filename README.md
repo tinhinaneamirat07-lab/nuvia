@@ -31,5 +31,5 @@ npm run dev
 - [x] API FastAPI : auth sécurisée, recettes, favoris, admin (SQLite en dev, prêt pour PostgreSQL)
 - [x] Import de ~300 vraies recettes avec photos (TheMealDB)
 - [ ] Assistant IA (RAG) côté serveur
-- [ ] Planner, liste de courses, frigo
+- [x] Planner de la semaine et liste de courses par rayon
 - [ ] Tests, CI/CD, déploiement, PWA
