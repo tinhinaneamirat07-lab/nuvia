@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/Button'
 import { Container } from '@/components/ui/Container'
 import { Basket, BowlFood, CaretLeft, CaretRight, Coffee, CookingPot, Minus, Plus, Warning, X } from '@/components/ui/icons'
 import { StateMessage } from '@/components/ui/StateMessage'
+import { ServerDown } from '@/components/ServerDown'
 import { useMe } from '@/features/auth/queries'
 import { usePlan, useGenerateList, useRemovePlanItem, useUpdatePlanItem } from '@/features/planner/queries'
 import { RecipePicker } from '@/features/planner/RecipePicker'
@@ -104,6 +105,7 @@ export default function Planner() {
   }, [plan.data])
 
   if (me.isSuccess && !me.data) return <Navigate to="/login?next=%2Fplanner" replace />
+  if (me.isError) return <ServerDown onRetry={() => me.refetch()} />
 
   const count = plan.data?.length ?? 0
   const short: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short' }

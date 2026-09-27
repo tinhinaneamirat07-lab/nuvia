@@ -5,6 +5,7 @@ import { ButtonLink } from '@/components/ui/Button'
 import { Container } from '@/components/ui/Container'
 import { Heart, Warning } from '@/components/ui/icons'
 import { StateMessage } from '@/components/ui/StateMessage'
+import { ServerDown } from '@/components/ServerDown'
 import { useMe } from '@/features/auth/queries'
 import { useFavorites } from '@/features/recipes/queries'
 
@@ -14,6 +15,7 @@ export default function Favorites() {
   const favorites = useFavorites(Boolean(me.data))
 
   if (me.isSuccess && !me.data) return <Navigate to="/login?next=%2Ffavorites" replace />
+  if (me.isError) return <ServerDown onRetry={() => me.refetch()} />
 
   return (
     <Container className="py-10 md:py-14">

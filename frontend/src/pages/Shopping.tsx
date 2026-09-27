@@ -22,6 +22,7 @@ import {
   X,
 } from '@/components/ui/icons'
 import { StateMessage } from '@/components/ui/StateMessage'
+import { ServerDown } from '@/components/ServerDown'
 import { useMe } from '@/features/auth/queries'
 import {
   useAddShoppingItem,
@@ -108,6 +109,7 @@ export default function Shopping() {
   }, [list.data])
 
   if (me.isSuccess && !me.data) return <Navigate to="/login?next=%2Fshopping" replace />
+  if (me.isError) return <ServerDown onRetry={() => me.refetch()} />
 
   const items = list.data ?? []
   const remaining = items.filter((i) => !i.checked).length
