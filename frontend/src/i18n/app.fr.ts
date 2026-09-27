@@ -1,5 +1,7 @@
 const appFr = {
   explore: {
+    subtitle: 'Des plats maghrébins faits maison et 300 recettes du monde entier.',
+    showing: '{{shown}} sur {{total}}',
     title: 'Explorer les recettes',
     searchLabel: 'Rechercher une recette ou un ingrédient',
     searchPlaceholder: 'Chorba, poulet, lentilles…',
@@ -42,6 +44,7 @@ const appFr = {
     'gluten-free': 'Sans gluten',
   },
   recipe: {
+    adjusts: 'Les quantités s’adaptent au nombre de personnes.',
     back: 'Toutes les recettes',
     ingredients: 'Ingrédients',
     steps: 'Préparation',
@@ -117,6 +120,7 @@ const appFr = {
   },
   slots: { breakfast: 'Petit-déjeuner', lunch: 'Déjeuner', dinner: 'Dîner' },
   planner: {
+    ready: 'Prêt pour les courses ?',
     title: 'Mon planner',
     subtitle: 'Place tes recettes dans la semaine, puis génère ta liste de courses.',
     previous: 'Semaine précédente',
@@ -144,6 +148,9 @@ const appFr = {
     recipesCount_other: '{{count}} recettes cette semaine',
   },
   shopping: {
+    progress: 'Progression',
+    ofChecked: 'sur {{total}} cochés',
+    aisleCount: '{{done}} sur {{total}}',
     title: 'Ma liste de courses',
     remaining_one: '{{count}} article à acheter',
     remaining_other: '{{count}} articles à acheter',

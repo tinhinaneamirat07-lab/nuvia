@@ -20,8 +20,8 @@ type FilterKey = 'category' | 'cuisine' | 'diet' | 'max_minutes'
 
 function FilterRow({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="flex items-center gap-3">
-      <span className="hidden w-28 shrink-0 text-sm font-medium text-muted md:block">{label}</span>
+    <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-4">
+      <span className="w-32 shrink-0 text-[15px] font-semibold">{label}</span>
       <div
         role="group"
         aria-label={label}
@@ -67,6 +67,12 @@ export default function Explore() {
     setParams(next, { replace: true })
   }
 
+  const clearKey = (key: FilterKey) => {
+    const next = new URLSearchParams(params)
+    next.delete(key)
+    setParams(next, { replace: true })
+  }
+
   const hasFilters = ['q', 'category', 'cuisine', 'diet', 'max_minutes'].some((k) => params.has(k))
   const clear = () => {
     setSearch('')
@@ -79,13 +85,14 @@ export default function Explore() {
 
   return (
     <Container className="py-10 md:py-14">
-      <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">{t('explore.title')}</h1>
+      <h1 className="text-3xl font-semibold md:text-4xl">{t('explore.title')}</h1>
+      <p className="mt-2 text-ink-muted">{t('explore.subtitle')}</p>
 
-      <div className="relative mt-6 max-w-2xl">
+      <div className="relative mt-8">
         <label htmlFor="recipe-search" className="sr-only">
           {t('explore.searchLabel')}
         </label>
-        <MagnifyingGlass size={20} className="pointer-events-none absolute inset-y-0 start-4 my-auto text-muted" />
+        <MagnifyingGlass size={20} className="pointer-events-none absolute inset-y-0 start-4 my-auto text-ink-muted" />
         <input
           id="recipe-search"
           type="search"
@@ -93,22 +100,25 @@ export default function Explore() {
           onChange={(e) => setSearch(e.target.value)}
           placeholder={t('explore.searchPlaceholder')}
           autoComplete="off"
-          className="h-14 w-full rounded-full border border-border bg-surface ps-12 pe-12 text-base shadow-soft placeholder:text-muted/70 focus:border-primary focus:ring-2 focus:ring-primary/25 focus:outline-none focus-visible:outline-none [&::-webkit-search-cancel-button]:hidden"
+          className="h-14 w-full rounded-full border border-line bg-surface ps-12 pe-12 text-[17px] shadow-sm placeholder:text-ink-muted focus:border-focus [&::-webkit-search-cancel-button]:hidden"
         />
         {search && (
           <button
             type="button"
             onClick={() => setSearch('')}
             aria-label={t('explore.clear')}
-            className="absolute inset-y-0 end-2 my-auto grid size-10 place-items-center rounded-full text-muted hover:bg-surface-2 hover:text-text"
+            className="absolute inset-y-0 end-1.5 my-auto grid size-11 place-items-center rounded-full text-ink-muted hover:bg-surface-sunken hover:text-ink"
           >
             <X size={18} weight="bold" />
           </button>
         )}
       </div>
 
-      <div className="mt-6 space-y-3">
+      <div className="mt-6 space-y-4 rounded-[28px] bg-surface-sunken p-5 md:p-6">
         <FilterRow label={t('explore.filters.category')}>
+          <Chip active={!filters.category} onClick={() => clearKey('category')}>
+            {t('explore.filters.any')}
+          </Chip>
           {CATEGORIES.map((c) => (
             <Chip key={c} active={filters.category === c} onClick={() => toggle('category', c)}>
               {t(`categories.${c}`)}
@@ -116,6 +126,9 @@ export default function Explore() {
           ))}
         </FilterRow>
         <FilterRow label={t('explore.filters.cuisine')}>
+          <Chip active={!filters.cuisine} onClick={() => clearKey('cuisine')}>
+            {t('explore.filters.any')}
+          </Chip>
           {CUISINES.map((c) => (
             <Chip key={c} active={filters.cuisine === c} onClick={() => toggle('cuisine', c)}>
               {t(`cuisines.${c}`)}
@@ -123,6 +136,9 @@ export default function Explore() {
           ))}
         </FilterRow>
         <FilterRow label={t('explore.filters.diet')}>
+          <Chip active={!filters.diet} onClick={() => clearKey('diet')}>
+            {t('explore.filters.any')}
+          </Chip>
           {DIETS.map((d) => (
             <Chip key={d} active={filters.diet === d} onClick={() => toggle('diet', d)}>
               {t(`diets.${d}`)}
@@ -130,6 +146,9 @@ export default function Explore() {
           ))}
         </FilterRow>
         <FilterRow label={t('explore.filters.time')}>
+          <Chip active={!filters.max_minutes} onClick={() => clearKey('max_minutes')}>
+            {t('explore.filters.any')}
+          </Chip>
           {TIMES.map((m) => (
             <Chip key={m} active={filters.max_minutes === m} onClick={() => toggle('max_minutes', String(m))}>
               {t('explore.filters.under', { count: m })}
@@ -139,11 +158,11 @@ export default function Explore() {
       </div>
 
       <div className="mt-8 flex min-h-9 items-center justify-between gap-4">
-        <p className="text-sm text-muted" aria-live="polite">
+        <p className="font-semibold" aria-live="polite">
           {query.isSuccess && t('explore.results', { count: total })}
         </p>
         {hasFilters && (
-          <button type="button" onClick={clear} className="text-sm font-medium text-primary hover:underline">
+          <button type="button" onClick={clear} className="min-h-11 text-[15px] font-medium text-link underline-offset-4 hover:underline">
             {t('explore.clear')}
           </button>
         )}
@@ -151,13 +170,14 @@ export default function Explore() {
 
       <div className="mt-4">
         {query.isPending ? (
-          <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-4">
+          <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-4 lg:gap-x-6">
             {Array.from({ length: 8 }, (_, i) => (
               <RecipeCardSkeleton key={i} />
             ))}
           </div>
         ) : query.isError ? (
           <StateMessage
+            tone="danger"
             icon={<Warning size={24} weight="bold" />}
             title={t('explore.errorTitle')}
             body={t('explore.errorBody')}
@@ -183,7 +203,7 @@ export default function Explore() {
         ) : (
           <>
             <ul
-              className={`grid grid-cols-2 gap-x-4 gap-y-8 transition-opacity sm:grid-cols-3 lg:grid-cols-4 ${query.isPlaceholderData ? 'opacity-60' : ''}`}
+              className={`grid grid-cols-2 gap-x-4 gap-y-10 transition-opacity sm:grid-cols-3 lg:grid-cols-4 lg:gap-x-6 ${query.isPlaceholderData ? 'opacity-60' : ''}`}
             >
               {recipes.map((r) => (
                 <li key={r.slug}>
@@ -191,20 +211,21 @@ export default function Explore() {
                 </li>
               ))}
             </ul>
-            {query.hasNextPage && (
-              <div className="mt-12 flex justify-center">
+            <div className="mt-12 flex flex-col items-center gap-3">
+              {query.hasNextPage && (
                 <Button variant="secondary" size="lg" onClick={() => query.fetchNextPage()} disabled={query.isFetchingNextPage}>
                   {t('explore.loadMore')}
                 </Button>
-              </div>
-            )}
+              )}
+              <p className="text-sm text-ink-muted">{t('explore.showing', { shown: recipes.length, total })}</p>
+            </div>
           </>
         )}
       </div>
 
-      <p className="mt-16 text-sm text-muted">
+      <p className="mt-16 text-sm text-ink-muted">
         {t('explore.credit')}{' '}
-        <a href="https://www.themealdb.com" target="_blank" rel="noreferrer" className="font-medium text-primary hover:underline">
+        <a href="https://www.themealdb.com" target="_blank" rel="noreferrer" className="font-medium text-link hover:underline">
           TheMealDB
         </a>
         .

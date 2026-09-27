@@ -17,25 +17,25 @@ export default function Favorites() {
 
   return (
     <Container className="py-10 md:py-14">
-      <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">{t('favorites.title')}</h1>
+      <h1 className="text-3xl font-semibold md:text-4xl">{t('favorites.title')}</h1>
       <div className="mt-8">
         {me.isPending || favorites.isPending ? (
-          <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-4">
+          <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 lg:gap-x-6">
             {Array.from({ length: 4 }, (_, i) => (
               <RecipeCardSkeleton key={i} />
             ))}
           </div>
         ) : favorites.isError ? (
-          <StateMessage icon={<Warning size={24} weight="bold" />} title={t('explore.errorTitle')} body={t('explore.errorBody')} />
+          <StateMessage tone="danger" icon={<Warning size={24} />} title={t('explore.errorTitle')} body={t('explore.errorBody')} />
         ) : favorites.data.length === 0 ? (
           <StateMessage
-            icon={<Heart size={24} weight="duotone" />}
+            icon={<Heart size={24} />}
             title={t('favorites.emptyTitle')}
             body={t('favorites.emptyBody')}
             action={<ButtonLink to="/explore">{t('favorites.browse')}</ButtonLink>}
           />
         ) : (
-          <ul className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-4">
+          <ul className="grid grid-cols-2 gap-x-4 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 lg:gap-x-6">
             {favorites.data.map((r) => (
               <li key={r.slug}>
                 <RecipeCard recipe={r} />

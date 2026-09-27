@@ -34,24 +34,24 @@ export function Dialog({
       onClick={(e) => e.target === ref.current && onClose()}
       aria-label={title}
       className={cn(
-        'm-auto w-[calc(100%-2rem)] max-w-lg rounded-2xl border border-border bg-surface p-0 text-text shadow-soft backdrop:bg-black/40',
+        'm-auto w-[calc(100%-2rem)] max-w-lg rounded-[28px] bg-surface p-0 text-ink shadow-lg backdrop:bg-overlay',
         className,
       )}
     >
       {open && (
         <div className="flex max-h-[85dvh] flex-col">
-          <div className="flex items-center justify-between gap-4 border-b border-border px-6 py-4">
-            <h2 className="text-lg font-semibold">{title}</h2>
+          <div className="flex items-center justify-between gap-4 px-6 pt-6 pb-2">
+            <h2 className="text-2xl font-semibold">{title}</h2>
             <button
               type="button"
               onClick={onClose}
               aria-label={t('planner.close')}
-              className="grid size-9 place-items-center rounded-full text-muted hover:bg-surface-2 hover:text-text"
+              className="grid size-11 place-items-center rounded-full text-ink-muted hover:bg-surface-sunken hover:text-ink"
             >
               <X size={18} weight="bold" />
             </button>
           </div>
-          <div className="overflow-y-auto p-6">{children}</div>
+          <div className="overflow-y-auto px-6 pt-2 pb-6">{children}</div>
         </div>
       )}
     </dialog>

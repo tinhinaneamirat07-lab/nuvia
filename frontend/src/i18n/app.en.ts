@@ -2,6 +2,8 @@ import type { AppMessages } from './app.fr'
 
 const appEn: AppMessages = {
   explore: {
+    subtitle: 'Home-style Maghrebi dishes and 300 recipes from around the world.',
+    showing: 'Showing {{shown}} of {{total}}',
     title: 'Explore recipes',
     searchLabel: 'Search a recipe or an ingredient',
     searchPlaceholder: 'Chorba, chicken, lentils…',
@@ -44,6 +46,7 @@ const appEn: AppMessages = {
     'gluten-free': 'Gluten-free',
   },
   recipe: {
+    adjusts: 'Quantities adjust to the number of servings.',
     back: 'All recipes',
     ingredients: 'Ingredients',
     steps: 'Method',
@@ -119,6 +122,7 @@ const appEn: AppMessages = {
   },
   slots: { breakfast: 'Breakfast', lunch: 'Lunch', dinner: 'Dinner' },
   planner: {
+    ready: 'Ready to shop?',
     title: 'My planner',
     subtitle: 'Place your recipes on the week, then generate your shopping list.',
     previous: 'Previous week',
@@ -146,6 +150,9 @@ const appEn: AppMessages = {
     recipesCount_other: '{{count}} recipes this week',
   },
   shopping: {
+    progress: 'Progress',
+    ofChecked: 'of {{total}} checked',
+    aisleCount: '{{done}} of {{total}}',
     title: 'My shopping list',
     remaining_one: '{{count}} item to buy',
     remaining_other: '{{count}} items to buy',

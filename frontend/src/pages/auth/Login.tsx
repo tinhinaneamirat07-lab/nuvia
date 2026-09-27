@@ -33,7 +33,7 @@ export default function Login() {
     <AuthLayout title={t('auth.loginTitle')} body={t('auth.loginBody')}>
       <form onSubmit={submit} noValidate className="flex flex-col gap-5">
         {login.isError && (
-          <p role="alert" className="flex items-start gap-2 rounded-xl bg-red-50 p-4 text-sm text-red-800 dark:bg-red-950/40 dark:text-red-300">
+          <p role="alert" className="flex items-start gap-2 rounded-xl bg-danger-soft p-4 text-sm font-medium text-danger">
             <Warning size={18} weight="bold" className="mt-px shrink-0" />
             {t(authErrorKey(login.error))}
           </p>
@@ -59,9 +59,9 @@ export default function Login() {
           {t('auth.submitLogin')}
         </Button>
       </form>
-      <p className="mt-6 text-sm text-muted">
+      <p className="mt-6 text-sm text-ink-muted">
         {t('auth.noAccount')}{' '}
-        <Link to={`/register${params.get('next') ? `?next=${encodeURIComponent(next)}` : ''}`} className="font-medium text-primary hover:underline">
+        <Link to={`/register${params.get('next') ? `?next=${encodeURIComponent(next)}` : ''}`} className="font-medium text-link hover:underline">
           {t('auth.toRegister')}
         </Link>
       </p>

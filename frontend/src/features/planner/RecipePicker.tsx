@@ -35,7 +35,7 @@ export function RecipePicker({
   return (
     <Dialog open={target !== null} onClose={onClose} title={label}>
       <div className="relative">
-        <MagnifyingGlass size={18} className="pointer-events-none absolute inset-y-0 start-4 my-auto text-muted" />
+        <MagnifyingGlass size={18} className="pointer-events-none absolute inset-y-0 start-4 my-auto text-ink-muted" />
         <input
           type="search"
           value={search}
@@ -43,11 +43,11 @@ export function RecipePicker({
           onChange={(e) => setSearch(e.target.value)}
           placeholder={t('planner.pickerSearch')}
           aria-label={t('planner.pickerSearch')}
-          className="h-12 w-full rounded-xl border border-border bg-bg ps-11 pe-4 focus:border-primary focus:ring-2 focus:ring-primary/25 focus:outline-none focus-visible:outline-none"
+          className="h-12 w-full rounded-xl border border-line-strong bg-surface ps-11 pe-4 placeholder:text-ink-muted focus:border-focus"
         />
       </div>
       {add.isError && (
-        <p role="alert" className="mt-3 text-sm text-red-700 dark:text-red-400">
+        <p role="alert" className="mt-3 text-sm font-medium text-danger">
           {t('planner.full')}
         </p>
       )}
@@ -58,21 +58,21 @@ export function RecipePicker({
               type="button"
               onClick={() => choose(r.slug)}
               disabled={add.isPending}
-              className="flex w-full items-center gap-3 rounded-xl p-2 text-start hover:bg-surface-2 disabled:opacity-60"
+              className="flex w-full items-center gap-3 rounded-xl p-2 text-start hover:bg-surface-sunken disabled:opacity-60"
             >
-              <RecipeImage src={r.image_url} className="size-14 shrink-0 rounded-xl" />
+              <RecipeImage src={r.image_url} className="size-14 shrink-0 rounded-lg" />
               <span className="min-w-0">
-                <span lang={langOf(r.title, lang)} className="line-clamp-1 font-medium">
+                <span lang={langOf(r.title, lang)} className="line-clamp-1 font-semibold">
                   {pick(r.title, lang)}
                 </span>
                 {r.total_minutes != null && (
-                  <span className="text-sm text-muted">{formatMinutes(r.total_minutes, lang)}</span>
+                  <span className="text-sm text-ink-muted">{formatMinutes(r.total_minutes, lang)}</span>
                 )}
               </span>
             </button>
           </li>
         ))}
-        {results.isSuccess && recipes.length === 0 && <li className="p-2 text-muted">{t('explore.emptyTitle')}</li>}
+        {results.isSuccess && recipes.length === 0 && <li className="p-2 text-ink-muted">{t('explore.emptyTitle')}</li>}
       </ul>
     </Dialog>
   )

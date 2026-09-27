@@ -10,9 +10,9 @@ export function ThemeToggle() {
       type="button"
       onClick={toggle}
       aria-label={t('nav.theme')}
-      className="grid size-9 place-items-center rounded-full text-muted transition-colors hover:bg-surface-2 hover:text-text"
+      className="grid size-11 place-items-center rounded-full text-ink transition-colors hover:bg-surface-sunken"
     >
-      {theme === 'dark' ? <Sun size={18} weight="bold" /> : <Moon size={18} weight="bold" />}
+      {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
     </button>
   )
 }

@@ -1,16 +1,19 @@
-import { Basket, CheckSquare, Microphone, Square, Translate } from '@/components/ui/icons'
 import { useTranslation } from 'react-i18next'
 import { Container } from '@/components/ui/Container'
+import { Basket, CalendarCheck, Carrot, Check, Microphone, Translate } from '@/components/ui/icons'
 import { Reveal } from '@/components/ui/Reveal'
+import { useLang } from '@/hooks/useLocalized'
+import { cn } from '@/lib/cn'
+import { addDays, formatDay, startOfWeek } from '@/lib/dates'
 
 function Waveform() {
-  const bars = [0.35, 0.7, 1, 0.55, 0.85, 0.4, 0.75, 0.5, 0.95, 0.3]
+  const bars = [0.35, 0.7, 1, 0.55, 0.85, 0.4, 0.75, 0.5, 0.95, 0.3, 0.6]
   return (
-    <div className="flex h-12 items-center gap-1.5" aria-hidden="true">
+    <div className="flex h-10 items-center gap-1.5" aria-hidden="true">
       {bars.map((h, i) => (
         <span
           key={i}
-          className="wave-bar w-1.5 rounded-full bg-inverse-accent"
+          className="wave-bar w-1.5 rounded-full bg-copper"
           style={{ height: `${h * 100}%`, animationDelay: `${i * 90}ms` }}
         />
       ))}
@@ -18,106 +21,163 @@ function Waveform() {
   )
 }
 
+function IconTile({ children, dark = false }: { children: React.ReactNode; dark?: boolean }) {
+  return (
+    <span
+      className={cn(
+        'grid size-12 place-items-center rounded-xl',
+        dark ? 'bg-on-brand/10 text-apricot' : 'bg-primary-soft text-link',
+      )}
+    >
+      {children}
+    </span>
+  )
+}
+
+const WEEK = ['/img/chorba-frik.webp', '/img/breads.webp', '/img/chicken-skewers.webp', '/img/pumpkin-soup.webp', '/img/citrus-mocktail.webp']
+
 export function Features() {
   const { t } = useTranslation()
-  const items = t('features.shopping.items', { returnObjects: true }) as string[]
+  const lang = useLang()
+  const items = t('features.shopping.items', { returnObjects: true }) as { name: string; qty: string }[]
+  const monday = startOfWeek(new Date(2026, 8, 28))
+  const card = 'h-full rounded-[28px] border border-line bg-surface p-6 shadow-sm md:p-8'
 
   return (
-    <section id="features" className="py-20 md:py-28">
+    <section id="features" className="py-20 md:py-24">
       <Container>
         <Reveal>
-          <h2 className="max-w-2xl text-3xl font-semibold tracking-tight text-balance md:text-4xl">
+          <p className="eyebrow text-brand">{t('features.eyebrow')}</p>
+          <h2 className="mt-3 max-w-2xl text-4xl leading-tight font-semibold text-balance md:text-5xl">
             {t('features.title')}
           </h2>
         </Reveal>
 
-        <div className="mt-12 grid gap-4 lg:grid-cols-6">
-          {/* Planner: large image cell */}
-          <Reveal className="lg:col-span-4 lg:row-span-2">
-            <article className="relative flex h-full min-h-[420px] overflow-hidden rounded-2xl">
-              <img
-                src="/img/ratatouille.webp"
-                alt={t('features.planner.imageAlt')}
-                loading="lazy"
-                className="absolute inset-0 size-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0b1510]/85 via-[#0b1510]/25 to-transparent" />
-              <div className="relative mt-auto max-w-md p-6 text-[#eef3ef] md:p-8">
-                <h3 className="text-2xl font-semibold tracking-tight">{t('features.planner.title')}</h3>
-                <p className="mt-2 leading-relaxed text-[#eef3ef]/85">{t('features.planner.body')}</p>
+        <div className="mt-12 grid gap-6 lg:grid-cols-3">
+          {/* Planner, with a real week strip */}
+          <Reveal className="lg:col-span-2">
+            <article className={cn(card, 'grid items-center gap-8 md:grid-cols-[1fr_1.2fr]')}>
+              <div>
+                <IconTile>
+                  <CalendarCheck size={24} />
+                </IconTile>
+                <h3 className="font-display mt-5 text-[22px] leading-7 font-semibold">{t('features.planner.title')}</h3>
+                <p className="mt-3 leading-relaxed text-ink-muted">{t('features.planner.body')}</p>
               </div>
-            </article>
-          </Reveal>
-
-          {/* Shopping list: tinted cell with a real checklist */}
-          <Reveal delay={0.05} className="lg:col-span-2">
-            <article className="h-full rounded-2xl bg-primary-soft p-6">
-              <Basket size={26} weight="duotone" className="text-primary" />
-              <h3 className="mt-4 text-lg font-semibold">{t('features.shopping.title')}</h3>
-              <p className="mt-1 text-sm leading-relaxed text-muted">{t('features.shopping.body')}</p>
-              <ul className="mt-5 space-y-2.5">
-                {items.map((item, i) => (
-                  <li key={item} className="flex items-center gap-2.5 text-sm">
-                    {i < 2 ? (
-                      <CheckSquare size={18} weight="fill" className="text-primary" />
-                    ) : (
-                      <Square size={18} weight="bold" className="text-muted" />
+              <ol className="grid grid-cols-5 gap-2" aria-hidden="true">
+                {WEEK.map((src, i) => (
+                  <li
+                    key={src}
+                    className={cn(
+                      'flex flex-col items-center gap-2 rounded-2xl p-1.5 pt-2.5',
+                      i === 2 ? 'bg-apricot text-on-apricot' : 'bg-surface-sunken',
                     )}
-                    <span className={i < 2 ? 'text-muted line-through' : ''}>{item}</span>
+                  >
+                    <span className="text-sm font-semibold capitalize">
+                      {formatDay(addDays(monday, i), lang, { weekday: 'short' })}
+                    </span>
+                    <img src={src} alt="" loading="lazy" className="aspect-square w-full rounded-xl object-cover" />
                   </li>
                 ))}
-              </ul>
+              </ol>
             </article>
           </Reveal>
 
-          {/* Voice: inverse cell */}
-          <Reveal delay={0.1} className="lg:col-span-2">
-            <article className="flex h-full flex-col rounded-2xl bg-inverse p-6 text-inverse-fg">
-              <div className="flex items-center justify-between">
-                <Microphone size={26} weight="duotone" className="text-inverse-accent" />
+          {/* Pantry: tall card with a photo on top */}
+          <Reveal delay={0.05} className="lg:row-span-2">
+            <article className="flex h-full flex-col overflow-hidden rounded-[28px] border border-line bg-surface shadow-sm">
+              <img
+                src="/img/garden-salad.webp"
+                alt={t('features.pantry.imageAlt')}
+                loading="lazy"
+                className="h-56 w-full object-cover lg:h-auto lg:flex-1"
+              />
+              <div className="p-6 md:p-8">
+                <IconTile>
+                  <Carrot size={24} />
+                </IconTile>
+                <h3 className="font-display mt-5 text-[22px] leading-7 font-semibold">{t('features.pantry.title')}</h3>
+                <p className="mt-3 leading-relaxed text-ink-muted">{t('features.pantry.body')}</p>
+              </div>
+            </article>
+          </Reveal>
+
+          {/* Shopping list, with a real checklist */}
+          <Reveal>
+            <article className={card}>
+              <IconTile>
+                <Basket size={24} />
+              </IconTile>
+              <h3 className="font-display mt-5 text-[22px] leading-7 font-semibold">{t('features.shopping.title')}</h3>
+              <p className="mt-3 leading-relaxed text-ink-muted">{t('features.shopping.body')}</p>
+              <div className="mt-6 rounded-2xl bg-surface-sunken p-4" aria-hidden="true">
+                <p className="eyebrow flex items-center gap-2 text-ink">
+                  <Carrot size={16} />
+                  {t('aisles.produce')}
+                </p>
+                <ul className="mt-2 divide-y divide-line">
+                  {items.map((item, i) => (
+                    <li key={item.name} className="flex min-h-11 items-center gap-3">
+                      <span
+                        className={cn(
+                          'grid size-6 shrink-0 place-items-center rounded-md border-2',
+                          i < 2 ? 'border-moss bg-moss text-on-moss' : 'border-line-strong bg-surface',
+                        )}
+                      >
+                        {i < 2 && <Check size={14} weight="bold" />}
+                      </span>
+                      <span className={cn('flex-1', i < 2 && 'text-ink-muted line-through')}>{item.name}</span>
+                      <span className="text-sm text-ink-muted">{item.qty}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </article>
+          </Reveal>
+
+          {/* Voice: burgundy card */}
+          <Reveal delay={0.05}>
+            <article className="flex h-full flex-col rounded-[28px] bg-brand-deep p-6 text-on-brand md:p-8">
+              <IconTile dark>
+                <Microphone size={24} />
+              </IconTile>
+              <h3 className="font-display mt-5 text-[22px] leading-7 font-semibold">{t('features.voice.title')}</h3>
+              <p className="mt-3 leading-relaxed text-on-brand-muted">{t('features.voice.body')}</p>
+              <div className="mt-8">
                 <Waveform />
-              </div>
-              <h3 className="mt-6 text-lg font-semibold">{t('features.voice.title')}</h3>
-              <p className="mt-1 text-sm leading-relaxed text-inverse-fg/75">{t('features.voice.body')}</p>
-            </article>
-          </Reveal>
-
-          {/* Pantry: image + text */}
-          <Reveal className="lg:col-span-3">
-            <article className="grid h-full overflow-hidden rounded-2xl border border-border bg-surface sm:grid-cols-2">
-              <div className="relative h-48 sm:h-auto">
-                <img
-                  src="/img/garden-salad.webp"
-                  alt={t('features.pantry.imageAlt')}
-                  loading="lazy"
-                  className="absolute inset-0 size-full object-cover"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="text-lg font-semibold">{t('features.pantry.title')}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted">{t('features.pantry.body')}</p>
               </div>
             </article>
           </Reveal>
 
           {/* Languages */}
-          <Reveal delay={0.05} className="lg:col-span-3">
-            <article className="flex h-full flex-col justify-between gap-8 rounded-2xl bg-saffron-soft p-6">
-              <div className="flex flex-wrap items-baseline gap-x-5 gap-y-1 text-3xl font-semibold tracking-tight md:text-4xl">
-                <span lang="fr">Bonjour</span>
-                <span lang="en" className="text-muted">
-                  Hello
-                </span>
-                <span lang="ar" dir="rtl" className="font-[family-name:var(--font-arabic)] text-primary">
-                  مرحبا
-                </span>
-              </div>
-              <div className="flex gap-3">
-                <Translate size={22} weight="duotone" className="mt-0.5 shrink-0 text-amber" />
+          <Reveal className="lg:col-span-3">
+            <article className={cn(card, 'grid items-center gap-6 md:grid-cols-[1fr_2fr]')}>
+              <div className="flex gap-4">
+                <IconTile>
+                  <Translate size={24} />
+                </IconTile>
                 <div>
-                  <h3 className="font-semibold">{t('features.languages.title')}</h3>
-                  <p className="mt-1 text-sm leading-relaxed text-text/70">{t('features.languages.body')}</p>
+                  <h3 className="font-display text-[22px] leading-7 font-semibold">{t('features.languages.title')}</h3>
+                  <p className="mt-2 leading-relaxed text-ink-muted">{t('features.languages.body')}</p>
                 </div>
+              </div>
+              <div className="grid grid-cols-3 gap-3" aria-hidden="true">
+                {[
+                  { word: 'Bonjour', lang: 'fr' },
+                  { word: 'Hello', lang: 'en' },
+                  { word: 'مرحبا', lang: 'ar' },
+                ].map((w) => (
+                  <span
+                    key={w.lang}
+                    lang={w.lang}
+                    className={cn(
+                      'font-display grid h-16 place-items-center rounded-2xl text-2xl font-semibold',
+                      w.lang === lang ? 'bg-apricot-soft text-apricot-ink' : 'bg-surface-sunken',
+                    )}
+                  >
+                    {w.word}
+                  </span>
+                ))}
               </div>
             </article>
           </Reveal>

@@ -5,6 +5,8 @@ type WithPlurals<T> = { [K in keyof T]: T[K] & Record<string, unknown> }
 
 const appAr: WithPlurals<AppMessages> = {
   explore: {
+    subtitle: 'أطباق مغاربية منزلية و300 وصفة من كل أنحاء العالم.',
+    showing: '{{shown}} من {{total}}',
     title: 'استكشف الوصفات',
     searchLabel: 'ابحث عن وصفة أو مكوّن',
     searchPlaceholder: 'شوربة، دجاج، عدس…',
@@ -51,6 +53,7 @@ const appAr: WithPlurals<AppMessages> = {
     'gluten-free': 'بدون غلوتين',
   },
   recipe: {
+    adjusts: 'تتغيّر الكميات حسب عدد الأشخاص.',
     back: 'كل الوصفات',
     ingredients: 'المكوّنات',
     steps: 'طريقة التحضير',
@@ -138,6 +141,7 @@ const appAr: WithPlurals<AppMessages> = {
   },
   slots: { breakfast: 'الفطور', lunch: 'الغداء', dinner: 'العشاء' },
   planner: {
+    ready: 'جاهز للتسوّق؟',
     title: 'مخطّطي',
     subtitle: 'ضع وصفاتك في أيام الأسبوع، ثم أنشئ قائمة المشتريات.',
     previous: 'الأسبوع السابق',
@@ -169,6 +173,9 @@ const appAr: WithPlurals<AppMessages> = {
     recipesCount_other: '{{count}} وصفة هذا الأسبوع',
   },
   shopping: {
+    progress: 'التقدّم',
+    ofChecked: 'من {{total}} مؤشَّر عليها',
+    aisleCount: '{{done}} من {{total}}',
     title: 'قائمة مشترياتي',
     remaining_zero: 'لا شيء للشراء',
     remaining_one: 'غرض واحد للشراء',

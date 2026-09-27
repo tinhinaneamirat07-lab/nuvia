@@ -43,7 +43,7 @@ export function AccountMenu({ onNavigate }: { onNavigate?: () => void }) {
   }
 
   const initial = user.name.trim().charAt(0).toUpperCase() || '?'
-  const itemClass = 'flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm hover:bg-surface-2'
+  const itemClass = 'flex min-h-11 w-full items-center gap-3 rounded-xl px-3 text-[15px] hover:bg-surface-sunken'
 
   return (
     <div ref={ref} className="relative">
@@ -53,16 +53,16 @@ export function AccountMenu({ onNavigate }: { onNavigate?: () => void }) {
         aria-haspopup="menu"
         aria-expanded={open}
         aria-label={t('account.menu')}
-        className="flex items-center gap-2 rounded-full py-1 ps-1 pe-3 hover:bg-surface-2"
+        className="flex items-center gap-2 rounded-full py-1 ps-1 pe-3 hover:bg-surface-sunken"
       >
-        <span className="grid size-8 place-items-center rounded-full bg-saffron text-sm font-semibold text-saffron-fg">
+        <span className="grid size-9 place-items-center rounded-full bg-brand-deep text-sm font-semibold text-on-brand">
           {initial}
         </span>
         <span className="max-w-32 truncate text-sm font-medium">{user.name}</span>
       </button>
       {open && (
-        <div role="menu" className="absolute end-0 top-full z-50 mt-2 w-56 rounded-2xl border border-border bg-surface p-2 shadow-soft">
-          <p className="truncate px-3 py-2 text-xs text-muted">{user.email}</p>
+        <div role="menu" className="absolute end-0 top-full z-50 mt-2 w-60 rounded-2xl border border-line bg-surface-raised p-2 shadow-md">
+          <p className="truncate px-3 py-2 text-sm text-ink-muted">{user.email}</p>
           <Link
             role="menuitem"
             to="/favorites"

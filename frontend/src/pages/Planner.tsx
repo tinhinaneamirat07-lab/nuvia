@@ -5,7 +5,7 @@ import type { PlanItem, Slot } from '@/api/types'
 import { RecipeImage } from '@/components/RecipeImage'
 import { Button } from '@/components/ui/Button'
 import { Container } from '@/components/ui/Container'
-import { ArrowLeft, ArrowRight, Basket, Minus, Plus, Warning, X } from '@/components/ui/icons'
+import { Basket, BowlFood, CaretLeft, CaretRight, Coffee, CookingPot, Minus, Plus, Warning, X } from '@/components/ui/icons'
 import { StateMessage } from '@/components/ui/StateMessage'
 import { useMe } from '@/features/auth/queries'
 import { usePlan, useGenerateList, useRemovePlanItem, useUpdatePlanItem } from '@/features/planner/queries'
@@ -16,6 +16,7 @@ import { addDays, formatDay, fromISODate, startOfWeek, toISODate } from '@/lib/d
 import { langOf, pick } from '@/lib/localize'
 
 const SLOTS: Slot[] = ['breakfast', 'lunch', 'dinner']
+const SLOT_ICONS = { breakfast: Coffee, lunch: BowlFood, dinner: CookingPot }
 
 function PlanCard({ item, start }: { item: PlanItem; start: string }) {
   const { t } = useTranslation()
@@ -23,22 +24,28 @@ function PlanCard({ item, start }: { item: PlanItem; start: string }) {
   const update = useUpdatePlanItem(start)
   const remove = useRemovePlanItem(start)
   const title = pick(item.recipe.title, lang)
-  const stepBtn = 'grid size-7 place-items-center rounded-full hover:bg-surface-2 disabled:opacity-40'
+  const stepBtn =
+    'grid size-9 place-items-center rounded-full bg-surface shadow-sm transition-colors hover:bg-surface-raised disabled:opacity-40'
 
   return (
-    <div className="flex items-center gap-3 rounded-xl border border-border bg-surface p-2">
-      <Link to={`/recipes/${item.recipe.slug}`} className="shrink-0">
-        <RecipeImage src={item.recipe.image_url} className="size-12 rounded-lg" />
+    <div className="flex items-center gap-2.5 rounded-xl border border-line bg-surface p-2 shadow-sm">
+      <Link to={`/recipes/${item.recipe.slug}`} className="shrink-0 self-start">
+        <RecipeImage src={item.recipe.image_url} className="size-13 rounded-lg" />
       </Link>
       <div className="min-w-0 flex-1">
         <Link
           to={`/recipes/${item.recipe.slug}`}
           lang={langOf(item.recipe.title, lang)}
-          className="line-clamp-2 text-sm font-medium leading-snug hover:text-primary"
+          className="block truncate text-[15px] leading-5 font-semibold hover:text-link"
+          title={title}
         >
           {title}
         </Link>
-        <div className="mt-1 flex items-center gap-1 text-xs text-muted">
+        <div
+          className="mt-1.5 inline-flex items-center gap-0.5 rounded-full border border-line bg-surface-sunken p-0.5"
+          role="group"
+          aria-label={t('recipe.servings', { count: item.servings })}
+        >
           <button
             type="button"
             className={stepBtn}
@@ -46,9 +53,9 @@ function PlanCard({ item, start }: { item: PlanItem; start: string }) {
             disabled={item.servings <= 1}
             onClick={() => update.mutate({ id: item.id, servings: item.servings - 1 })}
           >
-            <Minus size={12} weight="bold" />
+            <Minus size={14} />
           </button>
-          <span className="min-w-16 text-center tabular-nums">{t('recipe.servings', { count: item.servings })}</span>
+          <span className="min-w-7 text-center text-sm font-semibold tabular-nums">{item.servings}</span>
           <button
             type="button"
             className={stepBtn}
@@ -56,7 +63,7 @@ function PlanCard({ item, start }: { item: PlanItem; start: string }) {
             disabled={item.servings >= 24}
             onClick={() => update.mutate({ id: item.id, servings: item.servings + 1 })}
           >
-            <Plus size={12} weight="bold" />
+            <Plus size={14} />
           </button>
         </div>
       </div>
@@ -64,9 +71,9 @@ function PlanCard({ item, start }: { item: PlanItem; start: string }) {
         type="button"
         onClick={() => remove.mutate(item.id)}
         aria-label={t('planner.remove', { name: title })}
-        className="grid size-8 shrink-0 place-items-center self-start rounded-full text-muted hover:bg-surface-2 hover:text-text"
+        className="grid size-9 shrink-0 place-items-center self-start rounded-full text-ink hover:bg-surface-sunken"
       >
-        <X size={14} weight="bold" />
+        <X size={16} />
       </button>
     </div>
   )
@@ -109,108 +116,166 @@ export default function Planner() {
     : ''
 
   const navBtn =
-    'grid size-10 place-items-center rounded-full border border-border bg-surface hover:bg-surface-2 active:scale-[0.97]'
+    'grid size-11 shrink-0 place-items-center rounded-full border border-line-strong bg-surface hover:bg-surface-sunken active:scale-[0.97]'
 
   return (
-    <Container className="py-10 md:py-14">
-      <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-        <div>
-          <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">{t('planner.title')}</h1>
-          <p className="mt-2 max-w-xl text-muted">{t('planner.subtitle')}</p>
-        </div>
-        <Button
-          size="lg"
-          disabled={count === 0 || generate.isPending}
-          title={count === 0 ? t('planner.generateHint') : undefined}
-          onClick={() => generate.mutate(start, { onSuccess: () => navigate('/shopping') })}
-        >
-          <Basket size={20} weight="bold" />
-          {t('planner.generate')}
-        </Button>
-      </div>
-
-      <div className="mt-8 flex flex-wrap items-center gap-3">
-        <button type="button" className={navBtn} aria-label={t('planner.previous')} onClick={() => setWeekStart(addDays(weekStart, -7))}>
-          <ArrowLeft size={18} weight="bold" className="rtl:-scale-x-100" />
-        </button>
-        <button type="button" className={navBtn} aria-label={t('planner.next')} onClick={() => setWeekStart(addDays(weekStart, 7))}>
-          <ArrowRight size={18} weight="bold" className="rtl:-scale-x-100" />
-        </button>
-        <p className="text-lg font-semibold" aria-live="polite">
-          {range}
-        </p>
-        {!isThisWeek && (
-          <button
-            type="button"
-            onClick={() => setWeekStart(startOfWeek(new Date()))}
-            className="text-sm font-medium text-primary hover:underline"
-          >
-            {t('planner.thisWeek')}
-          </button>
-        )}
-        {plan.isSuccess && <p className="ms-auto text-sm text-muted">{t('planner.recipesCount', { count })}</p>}
-      </div>
-
-      {plan.isError ? (
-        <StateMessage
-          className="mt-8"
-          icon={<Warning size={24} weight="bold" />}
-          title={t('explore.errorTitle')}
-          body={t('explore.errorBody')}
-          action={
-            <Button variant="secondary" onClick={() => plan.refetch()}>
-              {t('explore.retry')}
+    <>
+      <Container className="pt-10 pb-8 md:pt-14">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <h1 className="text-3xl font-semibold md:text-4xl">{t('planner.title')}</h1>
+            <p className="mt-2 max-w-xl text-ink-muted">{t('planner.subtitle')}</p>
+          </div>
+          <div className="flex items-center gap-3">
+            <button type="button" className={navBtn} aria-label={t('planner.previous')} onClick={() => setWeekStart(addDays(weekStart, -7))}>
+              <CaretLeft size={20} className="rtl:-scale-x-100" />
+            </button>
+            <div className="min-w-40 text-center" aria-live="polite">
+              <p className="text-lg font-semibold">{range}</p>
+              <p className="text-sm text-ink-muted">{plan.isSuccess ? t('planner.recipesCount', { count }) : ' '}</p>
+            </div>
+            <button type="button" className={navBtn} aria-label={t('planner.next')} onClick={() => setWeekStart(addDays(weekStart, 7))}>
+              <CaretRight size={20} className="rtl:-scale-x-100" />
+            </button>
+            <Button
+              variant="soft"
+              className={cn(isThisWeek && 'invisible')}
+              onClick={() => setWeekStart(startOfWeek(new Date()))}
+            >
+              {t('planner.thisWeek')}
             </Button>
-          }
-        />
-      ) : (
-        <ol className={cn('mt-6 divide-y divide-border rounded-2xl border border-border bg-surface/50', plan.isPending && 'animate-pulse')}>
-          {days.map((d) => {
-            const iso = toISODate(d)
-            const isToday = iso === today
-            return (
-              <li key={iso} className="grid gap-4 p-4 md:p-5 lg:grid-cols-[10rem_1fr]">
-                <div className="flex items-baseline gap-2 lg:block">
-                  <p className={cn('font-semibold capitalize', isToday && 'text-primary')}>
-                    {formatDay(d, lang, { weekday: 'long' })}
-                  </p>
-                  <p className="text-sm text-muted">{formatDay(d, lang, { day: 'numeric', month: 'long' })}</p>
-                  {isToday && (
-                    <span className="inline-block rounded-full bg-saffron-soft px-2 py-0.5 text-xs font-medium text-text lg:mt-2">
-                      {t('planner.today')}
-                    </span>
-                  )}
-                </div>
-                <div className="grid gap-3 sm:grid-cols-3">
-                  {SLOTS.map((slot) => {
-                    const items = bySlot.get(`${iso}|${slot}`) ?? []
-                    return (
-                      <section key={slot} aria-label={`${t(`slots.${slot}`)}, ${formatDay(d, lang, { weekday: 'long' })}`}>
-                        <h3 className="mb-2 text-xs font-medium tracking-wide text-muted">{t(`slots.${slot}`)}</h3>
-                        <div className="space-y-2">
-                          {items.map((item) => (
-                            <PlanCard key={item.id} item={item} start={start} />
-                          ))}
-                          <button
-                            type="button"
-                            onClick={() => setTarget({ day: iso, slot })}
-                            className="flex h-10 w-full items-center justify-center gap-1.5 rounded-xl border border-dashed border-border text-sm text-muted transition-colors hover:border-primary/50 hover:bg-primary-soft/40 hover:text-primary"
-                          >
-                            <Plus size={14} weight="bold" />
-                            {t('planner.add')}
-                          </button>
-                        </div>
-                      </section>
-                    )
-                  })}
-                </div>
-              </li>
-            )
-          })}
-        </ol>
-      )}
+          </div>
+        </div>
+
+        {plan.isError ? (
+          <StateMessage
+            className="mt-8"
+            tone="danger"
+            icon={<Warning size={24} />}
+            title={t('explore.errorTitle')}
+            body={t('explore.errorBody')}
+            action={
+              <Button variant="secondary" onClick={() => plan.refetch()}>
+                {t('explore.retry')}
+              </Button>
+            }
+          />
+        ) : (
+          <>
+            {/* Column headers, desktop only (each cell names its meal on smaller screens) */}
+            <div className="mt-8 hidden grid-cols-[13rem_1fr_1fr_1fr] gap-4 px-4 lg:grid" aria-hidden="true">
+              <span />
+              {SLOTS.map((slot) => {
+                const Icon = SLOT_ICONS[slot]
+                return (
+                  <span key={slot} className="flex items-center gap-2 text-[15px] font-semibold text-ink-muted">
+                    <Icon size={18} />
+                    {t(`slots.${slot}`)}
+                  </span>
+                )
+              })}
+            </div>
+            <ol className={cn('mt-3 space-y-3', plan.isPending && 'animate-pulse')}>
+              {days.map((d) => {
+                const iso = toISODate(d)
+                const isToday = iso === today
+                return (
+                  <li
+                    key={iso}
+                    className={cn(
+                      'grid gap-4 rounded-2xl border p-3 md:p-4 lg:grid-cols-[13rem_1fr_1fr_1fr]',
+                      isToday ? 'border-apricot bg-apricot-soft' : 'border-transparent bg-surface-sunken',
+                    )}
+                    aria-current={isToday ? 'date' : undefined}
+                  >
+                    <div className="flex items-center gap-3 lg:self-center">
+                      <span
+                        className={cn(
+                          'font-display grid size-12 shrink-0 place-items-center rounded-xl text-xl font-semibold',
+                          isToday ? 'bg-apricot text-on-apricot' : 'bg-surface',
+                        )}
+                      >
+                        {d.getDate()}
+                      </span>
+                      <div>
+                        <p className="text-lg font-semibold capitalize">{formatDay(d, lang, { weekday: 'long' })}</p>
+                        {isToday && (
+                          <span className="mt-0.5 inline-flex min-h-6 items-center rounded-full bg-apricot px-2.5 text-[13px] font-semibold text-on-apricot">
+                            {t('planner.today')}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="grid gap-3 sm:grid-cols-3 lg:contents">
+                      {SLOTS.map((slot) => {
+                        const items = bySlot.get(`${iso}|${slot}`) ?? []
+                        const Icon = SLOT_ICONS[slot]
+                        const dayName = formatDay(d, lang, { weekday: 'long' })
+                        return (
+                          <section key={slot} aria-label={`${t(`slots.${slot}`)}, ${dayName}`} className="space-y-2">
+                            <h3 className="flex items-center gap-1.5 text-sm font-semibold text-ink-muted lg:hidden">
+                              <Icon size={16} />
+                              {t(`slots.${slot}`)}
+                            </h3>
+                            {items.map((item) => (
+                              <PlanCard key={item.id} item={item} start={start} />
+                            ))}
+                            {items.length === 0 ? (
+                              <button
+                                type="button"
+                                onClick={() => setTarget({ day: iso, slot })}
+                                className="flex h-11 w-full items-center justify-center gap-1.5 rounded-xl border-[1.5px] border-dashed border-line-strong text-[15px] font-medium text-ink-muted transition-colors hover:border-primary hover:bg-primary-soft hover:text-link"
+                              >
+                                <Plus size={16} />
+                                {t('planner.add')}
+                              </button>
+                            ) : (
+                              <button
+                                type="button"
+                                onClick={() => setTarget({ day: iso, slot })}
+                                className="inline-flex min-h-9 items-center gap-1.5 rounded-full px-2 text-sm font-medium text-ink-muted hover:bg-surface hover:text-link"
+                              >
+                                <Plus size={14} />
+                                {t('planner.add')}
+                              </button>
+                            )}
+                          </section>
+                        )
+                      })}
+                    </div>
+                  </li>
+                )
+              })}
+            </ol>
+          </>
+        )}
+      </Container>
+
+      {/* Sticky call to action */}
+      <div className="sticky bottom-0 z-30 border-t border-line bg-surface/95 backdrop-blur-sm">
+        <Container className="flex items-center justify-between gap-4 py-3">
+          <div className="flex items-center gap-3">
+            <span className="hidden size-12 place-items-center rounded-xl bg-moss-soft text-moss-ink sm:grid">
+              <Basket size={22} />
+            </span>
+            <div>
+              <p className="font-semibold">{t('planner.ready')}</p>
+              <p className="text-sm text-ink-muted">{count ? t('planner.recipesCount', { count }) : t('planner.generateHint')}</p>
+            </div>
+          </div>
+          <Button
+            size="lg"
+            disabled={count === 0 || generate.isPending}
+            onClick={() => generate.mutate(start, { onSuccess: () => navigate('/shopping') })}
+          >
+            <Basket size={20} />
+            <span className="hidden sm:inline">{t('planner.generate')}</span>
+            <span className="sm:hidden">{t('nav.shopping')}</span>
+          </Button>
+        </Container>
+      </div>
 
       <RecipePicker target={target} label={targetLabel} onClose={() => setTarget(null)} />
-    </Container>
+    </>
   )
 }

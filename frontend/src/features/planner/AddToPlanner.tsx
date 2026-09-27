@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/Button'
 import { buttonClass } from '@/components/ui/button-styles'
 import { Chip } from '@/components/ui/Chip'
 import { Dialog } from '@/components/ui/Dialog'
-import { CalendarCheck, CheckCircle } from '@/components/ui/icons'
+import { CalendarBlank, CheckCircle } from '@/components/ui/icons'
 import { useMe } from '@/features/auth/queries'
 import { useAddToPlan } from '@/features/planner/queries'
 import { useLang } from '@/hooks/useLocalized'
@@ -37,15 +37,15 @@ export function AddToPlanner({ recipe }: { recipe: RecipeDetail }) {
 
   return (
     <>
-      <button type="button" onClick={openDialog} className={buttonClass({ variant: 'secondary' })}>
-        <CalendarCheck size={18} weight="bold" className="text-amber" />
+      <button type="button" onClick={openDialog} className={buttonClass({ size: 'lg' })}>
+        <CalendarBlank size={20} />
         {t('planner.addToPlanner')}
       </button>
 
       <Dialog open={open} onClose={() => setOpen(false)} title={t('planner.addToPlanner')}>
         {add.isSuccess ? (
           <div className="flex flex-col items-start gap-4" role="status">
-            <p className="flex items-center gap-2 font-medium text-primary">
+            <p className="flex items-center gap-2 font-semibold text-moss-ink">
               <CheckCircle size={20} weight="fill" />
               {t('planner.added')}
             </p>
@@ -62,7 +62,7 @@ export function AddToPlanner({ recipe }: { recipe: RecipeDetail }) {
             className="space-y-6"
           >
             <fieldset>
-              <legend className="mb-3 text-sm font-medium">{t('planner.chooseDay')}</legend>
+              <legend className="mb-3 text-[15px] font-semibold">{t('planner.chooseDay')}</legend>
               <div className="flex flex-wrap gap-2">
                 {days.map((d, i) => {
                   const iso = toISODate(d)
@@ -75,7 +75,7 @@ export function AddToPlanner({ recipe }: { recipe: RecipeDetail }) {
               </div>
             </fieldset>
             <fieldset>
-              <legend className="mb-3 text-sm font-medium">{t('planner.chooseSlot')}</legend>
+              <legend className="mb-3 text-[15px] font-semibold">{t('planner.chooseSlot')}</legend>
               <div className="flex flex-wrap gap-2">
                 {SLOTS.map((s) => (
                   <Chip key={s} active={slot === s} onClick={() => setSlot(s)}>
@@ -85,7 +85,7 @@ export function AddToPlanner({ recipe }: { recipe: RecipeDetail }) {
               </div>
             </fieldset>
             {add.isError && (
-              <p role="alert" className="text-sm text-red-700 dark:text-red-400">
+              <p role="alert" className="text-sm font-medium text-danger">
                 {t('planner.full')}
               </p>
             )}

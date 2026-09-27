@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { Container } from '@/components/ui/Container'
 import { Logo } from '@/components/ui/Logo'
+import { LanguageSwitch } from './LanguageSwitch'
 
 export function Footer() {
   const { t } = useTranslation()
@@ -11,6 +12,7 @@ export function Footer() {
       links: [
         { to: '/explore', label: t('nav.explore') },
         { to: '/planner', label: t('nav.planner') },
+        { to: '/shopping', label: t('nav.shopping') },
         { to: '/assistant', label: t('nav.assistant') },
       ],
     },
@@ -25,19 +27,19 @@ export function Footer() {
   ]
 
   return (
-    <footer className="border-t border-border">
-      <Container className="grid gap-10 py-14 md:grid-cols-[2fr_1fr_1fr]">
-        <div className="max-w-xs space-y-3">
-          <Logo />
-          <p className="text-sm leading-relaxed text-muted">{t('footer.tagline')}</p>
+    <footer className="bg-brand-deep text-on-brand">
+      <Container className="grid gap-10 py-16 md:grid-cols-[2fr_1fr_1fr_1fr]">
+        <div className="max-w-xs space-y-4">
+          <Logo onDark />
+          <p className="leading-relaxed text-on-brand-muted">{t('footer.tagline')}</p>
         </div>
         {groups.map((g) => (
           <div key={g.title}>
-            <h3 className="text-sm font-semibold">{g.title}</h3>
-            <ul className="mt-4 space-y-3">
+            <h2 className="eyebrow font-sans text-apricot">{g.title}</h2>
+            <ul className="mt-4 space-y-1">
               {g.links.map((l) => (
                 <li key={l.to}>
-                  <Link to={l.to} className="text-sm text-muted transition-colors hover:text-text">
+                  <Link to={l.to} className="inline-flex min-h-9 items-center text-[15px] text-on-brand hover:underline">
                     {l.label}
                   </Link>
                 </li>
@@ -45,10 +47,16 @@ export function Footer() {
             </ul>
           </div>
         ))}
+        <div>
+          <h2 className="eyebrow font-sans text-apricot">{t('footer.language')}</h2>
+          <LanguageSwitch onDark className="mt-4" />
+        </div>
       </Container>
-      <Container className="border-t border-border py-6">
-        <p className="text-xs text-muted">{t('footer.rights')}</p>
-      </Container>
+      <div className="border-t border-on-brand/15">
+        <Container className="py-6">
+          <p className="text-sm text-on-brand-muted">{t('footer.rights')}</p>
+        </Container>
+      </div>
     </footer>
   )
 }

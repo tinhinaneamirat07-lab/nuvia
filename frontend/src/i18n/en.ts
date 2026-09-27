@@ -13,6 +13,8 @@ const en: Messages = {
     language: 'Language',
   },
   hero: {
+    eyebrow: 'Your cooking assistant, in 3 languages',
+    trust: { free: 'Free, no card needed', recipes: '300+ recipes' },
     title: 'Your week of meals, planned in two minutes.',
     highlight: 'two minutes',
     subtitle:
@@ -27,6 +29,7 @@ const en: Messages = {
     },
   },
   features: {
+    eyebrow: 'How it helps',
     title: 'From fridge to plate, without the stress.',
     planner: {
       title: 'A planned week',
@@ -41,7 +44,12 @@ const en: Messages = {
     shopping: {
       title: 'Automatic shopping list',
       body: 'The whole week’s quantities, combined and sorted by aisle.',
-      items: ['Freekeh, 250 g', 'Tomatoes, 6', 'Coriander, 1 bunch', 'Chicken, 1 kg'],
+      items: [
+        { name: 'Freekeh', qty: '250 g' },
+        { name: 'Tomatoes', qty: '6' },
+        { name: 'Coriander', qty: '1 bunch' },
+        { name: 'Chicken', qty: '1 kg' },
+      ],
     },
     voice: {
       title: 'Hands covered in flour? Just talk.',
@@ -53,6 +61,8 @@ const en: Messages = {
     },
   },
   assistant: {
+    eyebrow: 'Voice assistant',
+    step: 'Step 1 of 5',
     title: 'An assistant that actually knows cooking.',
     body: 'Before answering, it searches Nuvia’s recipe library. You speak, it replies in your language.',
     listening: 'Nuvia is listening',
@@ -72,6 +82,7 @@ const en: Messages = {
     imageAlt: 'Steak grilling over an open fire',
   },
   recipes: {
+    eyebrow: 'This week on Nuvia',
     title: 'Trending recipes',
     all: 'See all',
     minutes: '{{count}} min',
@@ -80,15 +91,21 @@ const en: Messages = {
     next: 'Next recipes',
   },
   maghreb: {
+    eyebrow: 'Maghrebi kitchen',
+    highlight: 'front and center',
+    dishes: ['Chorba frik', 'Rechta', 'Mhadjeb', 'Couscous', 'Tajine zitoune'],
+    cta: 'Explore Maghrebi recipes',
     title: 'Home cooking, front and center.',
     body: 'Chorba, rechta, mhadjeb, couscous: carefully written Maghrebi recipes, in Arabic and French.',
     imageAlt: 'Fresh bread and pastries out of the oven',
   },
   cta: {
+    button: 'Plan my week',
     title: 'Your first week of meals is waiting.',
     body: 'Free, no credit card needed.',
   },
   footer: {
+    language: 'Language',
     tagline: 'The cooking assistant that plans, shops and guides you.',
     product: 'Product',
     company: 'Nuvia',

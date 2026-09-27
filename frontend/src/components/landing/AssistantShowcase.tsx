@@ -1,7 +1,7 @@
-import { Microphone } from '@/components/ui/icons'
 import { motion, useReducedMotion } from 'motion/react'
 import { useTranslation } from 'react-i18next'
 import { Container } from '@/components/ui/Container'
+import { CheckCircle, Microphone, Pause } from '@/components/ui/icons'
 import { Reveal } from '@/components/ui/Reveal'
 import { cn } from '@/lib/cn'
 
@@ -13,66 +13,67 @@ export function AssistantShowcase() {
   const chat = t('assistant.chat', { returnObjects: true }) as Message[]
 
   return (
-    <section id="assistant" className="bg-inverse py-20 text-inverse-fg md:py-28">
-      <Container>
-        <Reveal className="max-w-2xl">
-          <h2 className="text-3xl font-semibold tracking-tight text-balance md:text-4xl">{t('assistant.title')}</h2>
-          <p className="mt-4 max-w-[60ch] text-lg leading-relaxed text-inverse-fg/75">{t('assistant.body')}</p>
+    <section id="assistant" className="bg-brand-deep py-20 text-on-brand md:py-28">
+      <Container className="grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr]">
+        <Reveal className="flex flex-col items-start gap-6">
+          <p className="eyebrow text-apricot">{t('assistant.eyebrow')}</p>
+          <h2 className="text-4xl leading-tight font-semibold text-balance md:text-5xl">{t('assistant.title')}</h2>
+          <p className="max-w-[48ch] text-lg leading-relaxed text-on-brand-muted">{t('assistant.body')}</p>
+          <div className="mt-2 flex items-center gap-4">
+            <span className="relative grid size-14 place-items-center rounded-full bg-primary text-on-primary shadow-md">
+              <Microphone size={24} />
+              <span className="mic-pulse absolute -inset-1.5 rounded-full border-2 border-apricot" />
+            </span>
+            <span className="font-semibold">{t('assistant.listening')}</span>
+          </div>
         </Reveal>
 
-        <div className="mt-12 grid gap-4 lg:grid-cols-12">
-          {/* Live chat component, rendered with real UI rather than a screenshot */}
-          <div className="rounded-2xl border border-white/10 bg-[#0b1510]/40 p-4 sm:p-6 lg:col-span-7">
-            <div className="flex items-center justify-between border-b border-white/10 pb-4">
-              <div className="flex items-center gap-3">
-                <span className="grid size-9 place-items-center rounded-full bg-inverse-accent text-sm font-semibold text-[#0b1510]">
-                  N
-                </span>
-                <span className="font-semibold">{t('assistant.name')}</span>
+        {/* Live chat rendered with real UI rather than a screenshot */}
+        <ul
+          className="space-y-3 rounded-[28px] border border-on-brand/15 bg-on-brand/5 p-4 sm:p-7"
+          aria-label={t('assistant.name')}
+        >
+          {chat.map((m, i) => (
+            <motion.li
+              key={i}
+              initial={reduce ? false : { opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.6 }}
+              transition={{ duration: 0.45, delay: i * 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className={cn('flex', m.from === 'user' ? 'justify-end' : 'justify-start')}
+            >
+              <div
+                className={cn(
+                  'max-w-[88%] rounded-[22px] px-4 py-3 text-[15px] leading-relaxed',
+                  m.from === 'user' ? 'rounded-ee-md bg-primary text-on-primary' : 'rounded-es-md bg-surface text-ink',
+                )}
+              >
+                <p>{m.text}</p>
+                {i === 1 && (
+                  <div className="mt-3 flex items-center gap-3 rounded-xl bg-surface-sunken p-2">
+                    <img src="/img/chorba-frik.webp" alt="" className="size-12 rounded-lg object-cover" />
+                    <div>
+                      <p className="font-semibold">{t('hero.card.recipe')}</p>
+                      <p className="text-sm text-ink-muted">{t('hero.card.meta')}</p>
+                    </div>
+                  </div>
+                )}
+                {i === 3 && (
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <span className="inline-flex h-9 items-center gap-2 rounded-full border border-apricot-ink bg-apricot-soft px-3 text-sm font-semibold text-apricot-ink tabular-nums">
+                      <Pause size={16} />
+                      4:12
+                    </span>
+                    <span className="inline-flex h-9 items-center gap-2 rounded-full bg-moss-soft px-3 text-sm font-semibold text-moss-ink">
+                      <CheckCircle size={16} />
+                      {t('assistant.step')}
+                    </span>
+                  </div>
+                )}
               </div>
-              <span className="flex items-center gap-2 text-sm text-inverse-fg/70">
-                <span className="relative grid size-7 place-items-center rounded-full bg-inverse-accent/20">
-                  <Microphone size={15} weight="fill" className="text-inverse-accent" />
-                  <span className="mic-pulse absolute inset-0 rounded-full border border-inverse-accent" />
-                </span>
-                {t('assistant.listening')}
-              </span>
-            </div>
-
-            <ul className="mt-5 space-y-3" aria-label={t('assistant.name')}>
-              {chat.map((m, i) => (
-                <motion.li
-                  key={i}
-                  initial={reduce ? false : { opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.6 }}
-                  transition={{ duration: 0.45, delay: i * 0.35, ease: [0.16, 1, 0.3, 1] }}
-                  className={cn('flex', m.from === 'user' ? 'justify-end' : 'justify-start')}
-                >
-                  <p
-                    className={cn(
-                      'max-w-[85%] rounded-2xl px-4 py-3 text-[15px] leading-relaxed',
-                      m.from === 'user'
-                        ? 'rounded-ee-md bg-saffron text-saffron-fg'
-                        : 'rounded-es-md bg-white/8 text-inverse-fg',
-                    )}
-                  >
-                    {m.text}
-                  </p>
-                </motion.li>
-              ))}
-            </ul>
-          </div>
-
-          <Reveal delay={0.1} className="relative h-72 overflow-hidden rounded-2xl lg:col-span-5 lg:h-auto">
-            <img
-              src="/img/grilled-steak.webp"
-              alt={t('assistant.imageAlt')}
-              loading="lazy"
-              className="absolute inset-0 size-full object-cover"
-            />
-          </Reveal>
-        </div>
+            </motion.li>
+          ))}
+        </ul>
       </Container>
     </section>
   )

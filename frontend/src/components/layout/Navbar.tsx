@@ -22,9 +22,9 @@ export function Navbar() {
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border/70 bg-bg/95">
-      <Container className="flex h-16 items-center justify-between gap-4">
-        <div className="flex items-center gap-10">
+    <header className="sticky top-0 z-40 border-b border-line bg-bg/95">
+      <Container className="flex h-[72px] items-center justify-between gap-4">
+        <div className="flex items-center gap-8">
           <Logo />
           <nav className="hidden items-center gap-1 md:flex">
             {links.map((l) => (
@@ -33,8 +33,8 @@ export function Navbar() {
                 to={l.to}
                 className={({ isActive }) =>
                   cn(
-                    'rounded-full px-3 py-2 text-sm font-medium transition-colors',
-                    isActive ? 'text-text' : 'text-muted hover:text-text',
+                    'inline-flex h-11 items-center rounded-full px-4 text-[15px] font-medium transition-colors',
+                    isActive ? 'bg-primary-soft font-semibold text-link' : 'text-ink hover:bg-surface-sunken',
                   )
                 }
               >
@@ -57,7 +57,7 @@ export function Navbar() {
             aria-label={t('nav.menu')}
             aria-expanded={open}
             onClick={() => setOpen((o) => !o)}
-            className="grid size-9 place-items-center rounded-full hover:bg-surface-2"
+            className="grid size-11 place-items-center rounded-full hover:bg-surface-sunken"
           >
             {open ? <X size={20} weight="bold" /> : <List size={20} weight="bold" />}
           </button>
@@ -71,7 +71,7 @@ export function Navbar() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="overflow-hidden border-t border-border md:hidden"
+            className="overflow-hidden border-t border-line md:hidden"
           >
             <Container className="flex flex-col gap-1 py-4">
               {links.map((l) => (
@@ -79,7 +79,9 @@ export function Navbar() {
                   key={l.to}
                   to={l.to}
                   onClick={() => setOpen(false)}
-                  className="rounded-xl px-3 py-3 text-base font-medium hover:bg-surface-2"
+                  className={({ isActive }) =>
+                    cn('rounded-xl px-3 py-3 text-base font-medium', isActive ? 'bg-primary-soft text-link' : 'hover:bg-surface-sunken')
+                  }
                 >
                   {t(l.key)}
                 </NavLink>

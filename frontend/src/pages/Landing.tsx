@@ -10,9 +10,9 @@ export default function Landing() {
     <>
       <Hero />
       <Features />
-      <AssistantShowcase />
       <RecipeCarousel />
       <MaghrebBanner />
+      <AssistantShowcase />
       <FinalCta />
     </>
   )

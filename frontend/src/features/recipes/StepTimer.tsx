@@ -49,9 +49,9 @@ export function StepTimer({ seconds }: { seconds: number }) {
       <button
         type="button"
         onClick={start}
-        className="mt-3 inline-flex h-9 items-center gap-2 rounded-full bg-saffron-soft px-4 text-sm font-medium text-text transition-colors hover:bg-saffron/40 active:scale-[0.98]"
+        className="mt-3 inline-flex h-10 items-center gap-2 rounded-full border border-line-strong bg-surface px-4 text-sm font-semibold text-ink transition-colors hover:bg-surface-sunken active:scale-[0.98]"
       >
-        <Timer size={16} weight="bold" className="text-amber" />
+        <Timer size={18} className="text-apricot-ink" />
         {t('recipe.timer', { time: clock(seconds) })}
       </button>
     )
@@ -61,8 +61,8 @@ export function StepTimer({ seconds }: { seconds: number }) {
   return (
     <div
       className={cn(
-        'mt-3 inline-flex h-10 items-center gap-1 rounded-full ps-4 pe-1 text-sm font-semibold',
-        done ? 'bg-primary text-primary-fg' : 'bg-saffron text-saffron-fg',
+        'mt-3 inline-flex h-11 items-center gap-1 rounded-full border ps-4 pe-1 text-sm font-semibold',
+        done ? 'border-moss bg-moss-soft text-moss-ink' : 'border-apricot-ink bg-apricot-soft text-apricot-ink',
       )}
     >
       <span aria-live="polite" className="me-2 tabular-nums" dir="ltr">
@@ -73,7 +73,7 @@ export function StepTimer({ seconds }: { seconds: number }) {
           type="button"
           onClick={() => (running ? setRunning(false) : start())}
           aria-label={running ? t('recipe.pause') : t('recipe.resume')}
-          className="grid size-8 place-items-center rounded-full hover:bg-black/10"
+          className="grid size-9 place-items-center rounded-full hover:bg-ink/10"
         >
           {running ? <Pause size={16} weight="fill" /> : <Play size={16} weight="fill" />}
         </button>
@@ -82,7 +82,7 @@ export function StepTimer({ seconds }: { seconds: number }) {
         type="button"
         onClick={reset}
         aria-label={t('recipe.reset')}
-        className="grid size-8 place-items-center rounded-full hover:bg-black/10"
+        className="grid size-9 place-items-center rounded-full hover:bg-ink/10"
       >
         <X size={16} weight="bold" />
       </button>

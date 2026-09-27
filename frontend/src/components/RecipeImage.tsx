@@ -17,7 +17,7 @@ export function RecipeImage({
   const [failed, setFailed] = useState(!src)
   if (failed) {
     return (
-      <div className={cn('grid place-items-center bg-surface-2 text-muted', className)} role={alt ? 'img' : undefined} aria-label={alt || undefined}>
+      <div className={cn('grid place-items-center bg-surface-sunken text-ink-muted', className)} role={alt ? 'img' : undefined} aria-label={alt || undefined}>
         <CookingPot size={36} weight="duotone" />
       </div>
     )

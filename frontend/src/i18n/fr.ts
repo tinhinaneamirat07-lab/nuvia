@@ -11,6 +11,8 @@ const fr = {
     language: 'Langue',
   },
   hero: {
+    eyebrow: 'Ton assistant cuisine, en 3 langues',
+    trust: { free: 'Gratuit, sans carte bancaire', recipes: '300+ recettes' },
     title: 'Tes repas de la semaine, planifiés en deux minutes.',
     highlight: 'deux minutes',
     subtitle:
@@ -25,6 +27,7 @@ const fr = {
     },
   },
   features: {
+    eyebrow: 'Comment ça aide',
     title: 'Du frigo à l’assiette, sans prise de tête.',
     planner: {
       title: 'Une semaine planifiée',
@@ -39,7 +42,12 @@ const fr = {
     shopping: {
       title: 'Liste de courses automatique',
       body: 'Les quantités de la semaine, réunies et triées par rayon.',
-      items: ['Frik, 250 g', 'Tomates, 6', 'Coriandre, 1 botte', 'Poulet, 1 kg'],
+      items: [
+        { name: 'Frik', qty: '250 g' },
+        { name: 'Tomates', qty: '6' },
+        { name: 'Coriandre', qty: '1 botte' },
+        { name: 'Poulet', qty: '1 kg' },
+      ],
     },
     voice: {
       title: 'Les mains dans la farine ? Parle.',
@@ -51,6 +59,8 @@ const fr = {
     },
   },
   assistant: {
+    eyebrow: 'Assistant vocal',
+    step: 'Étape 1 sur 5',
     title: 'Un assistant qui connaît vraiment la cuisine.',
     body: 'Avant de répondre, il cherche dans la base de recettes de Nuvia. Tu parles, il répond dans ta langue.',
     listening: 'Nuvia écoute',
@@ -70,6 +80,7 @@ const fr = {
     imageAlt: 'Pièce de bœuf grillée au feu de bois',
   },
   recipes: {
+    eyebrow: 'Cette semaine sur Nuvia',
     title: 'Recettes du moment',
     all: 'Tout voir',
     minutes: '{{count}} min',
@@ -78,15 +89,21 @@ const fr = {
     next: 'Recettes suivantes',
   },
   maghreb: {
+    eyebrow: 'Cuisine maghrébine',
+    highlight: 'à l’honneur',
+    dishes: ['Chorba frik', 'Rechta', 'Mhadjeb', 'Couscous', 'Tajine zitoune'],
+    cta: 'Explorer les recettes maghrébines',
     title: 'La cuisine d’ici, à l’honneur.',
     body: 'Chorba, rechta, mhadjeb, couscous : des recettes maghrébines écrites avec soin, en arabe et en français.',
     imageAlt: 'Pains et viennoiseries sortis du four',
   },
   cta: {
+    button: 'Planifier ma semaine',
     title: 'Ta première semaine de repas t’attend.',
     body: 'Gratuit, sans carte bancaire.',
   },
   footer: {
+    language: 'Langue',
     tagline: 'L’assistant cuisine qui planifie, fait les courses et te guide.',
     product: 'Produit',
     company: 'Nuvia',
