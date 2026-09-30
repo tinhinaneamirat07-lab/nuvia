@@ -46,6 +46,7 @@ const appEn: AppMessages = {
     'gluten-free': 'Gluten-free',
   },
   recipe: {
+    similar: 'You might also like',
     adjusts: 'Quantities adjust to the number of servings.',
     back: 'All recipes',
     ingredients: 'Ingredients',
@@ -175,6 +176,19 @@ const appEn: AppMessages = {
     spices: 'Spices and condiments',
     drinks: 'Drinks',
     other: 'Other',
+  },
+  assistantPage: {
+    eyebrow: 'Coming soon',
+    title: 'Your cooking assistant is on its way.',
+    body: 'An AI agent that knows every Nuvia recipe and acts for you: it searches, plans your week and builds your shopping list.',
+    features: [
+      'Finds a recipe with what is in your fridge',
+      'Plans your week of dinners in one sentence',
+      'Adds the ingredients to your shopping list',
+      'Guides you step by step by voice, in French, English or Arabic',
+    ],
+    example: 'Plan 3 quick dinners this week and make my list.',
+    cta: 'Meanwhile, plan your week',
   },
   auth: {
     loginTitle: 'Welcome back',

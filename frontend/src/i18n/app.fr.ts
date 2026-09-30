@@ -44,6 +44,7 @@ const appFr = {
     'gluten-free': 'Sans gluten',
   },
   recipe: {
+    similar: 'Tu aimeras aussi',
     adjusts: 'Les quantités s’adaptent au nombre de personnes.',
     back: 'Toutes les recettes',
     ingredients: 'Ingrédients',
@@ -173,6 +174,19 @@ const appFr = {
     spices: 'Épices et condiments',
     drinks: 'Boissons',
     other: 'Divers',
+  },
+  assistantPage: {
+    eyebrow: 'Bientôt disponible',
+    title: 'Ton assistant cuisine arrive.',
+    body: 'Un agent IA qui connaît toutes les recettes de Nuvia et agit pour toi : il cherche, planifie ta semaine et prépare ta liste de courses.',
+    features: [
+      'Trouve une recette avec ce qu’il y a dans ton frigo',
+      'Planifie tes dîners de la semaine en une phrase',
+      'Ajoute les ingrédients à ta liste de courses',
+      'Te guide pas à pas à la voix, en français, anglais ou arabe',
+    ],
+    example: 'Planifie 3 dîners rapides cette semaine et fais ma liste.',
+    cta: 'En attendant, planifie ta semaine',
   },
   auth: {
     loginTitle: 'Content de te revoir',

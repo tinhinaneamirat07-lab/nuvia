@@ -23,7 +23,7 @@ import {
 import { StateMessage } from '@/components/ui/StateMessage'
 import { useMe } from '@/features/auth/queries'
 import { AddToPlanner } from '@/features/planner/AddToPlanner'
-import { useRecipe, useToggleFavorite } from '@/features/recipes/queries'
+import { useRecipe, useSimilarRecipes, useToggleFavorite } from '@/features/recipes/queries'
 import { StepTimer } from '@/features/recipes/StepTimer'
 import { useLang } from '@/hooks/useLocalized'
 import { cn } from '@/lib/cn'
@@ -103,6 +103,35 @@ function Ingredients({ recipe }: { recipe: Recipe }) {
         ))}
       </ul>
       {recipe.servings && <p className="mt-4 text-sm text-ink-muted">{t('recipe.adjusts')}</p>}
+    </section>
+  )
+}
+
+function Similar({ recipe }: { recipe: Recipe }) {
+  const { t } = useTranslation()
+  const lang = useLang()
+  const similar = useSimilarRecipes(recipe)
+  if (!similar.data?.length) return null
+  return (
+    <section aria-labelledby="similar" className="mt-12">
+      <h2 id="similar" className="text-[22px] leading-7 font-semibold">
+        {t('recipe.similar')}
+      </h2>
+      <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+        {similar.data.map((r) => (
+          <li key={r.slug}>
+            <Link
+              to={`/recipes/${r.slug}`}
+              className="flex h-full items-center gap-3 rounded-2xl border border-line bg-surface p-2 shadow-sm transition-shadow hover:shadow-md"
+            >
+              <RecipeImage src={r.image_url} className="size-14 shrink-0 rounded-lg" />
+              <span lang={langOf(r.title, lang)} className="line-clamp-2 leading-snug font-semibold">
+                {pick(r.title, lang)}
+              </span>
+            </Link>
+          </li>
+        ))}
+      </ul>
     </section>
   )
 }
@@ -329,6 +358,8 @@ export default function RecipeDetail() {
               )}
             </p>
           )}
+
+          <Similar recipe={recipe} />
         </section>
       </Container>
     </article>

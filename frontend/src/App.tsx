@@ -16,6 +16,7 @@ const router = createBrowserRouter([
       { path: '/favorites', lazy: page(() => import('@/pages/Favorites')) },
       { path: '/planner', lazy: page(() => import('@/pages/Planner')) },
       { path: '/shopping', lazy: page(() => import('@/pages/Shopping')) },
+      { path: '/assistant', lazy: page(() => import('@/pages/Assistant')) },
       { path: '/login', lazy: page(() => import('@/pages/auth/Login')) },
       { path: '/register', lazy: page(() => import('@/pages/auth/Register')) },
       { path: '*', element: <NotFound /> },
