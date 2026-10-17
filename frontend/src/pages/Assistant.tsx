@@ -12,8 +12,8 @@ export default function Assistant() {
 
   return (
     <Container className="py-10 md:py-14">
-      <section className="grid items-center gap-10 overflow-hidden rounded-[28px] bg-brand-deep p-8 text-on-brand md:p-14 lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="flex flex-col items-start gap-6">
+      <section className="grid items-center gap-10 overflow-hidden rounded-[28px] bg-brand-deep p-6 text-on-brand sm:p-8 md:p-14 lg:grid-cols-[1.1fr_0.9fr]">
+        <div className="flex min-w-0 flex-col items-start gap-6">
           <p className="inline-flex items-center gap-1.5 rounded-full bg-on-brand/10 px-3 py-1.5 text-[13px] font-semibold text-apricot">
             <Sparkle size={16} />
             {t('assistantPage.eyebrow')}
@@ -33,7 +33,7 @@ export default function Assistant() {
               )
             })}
           </ul>
-          <ButtonLink to="/planner" size="lg" variant="inverse" className="mt-2">
+          <ButtonLink to="/planner" size="lg" variant="inverse" className="mt-2 h-auto min-h-13 py-3 text-start whitespace-normal">
             {t('assistantPage.cta')}
             <ArrowRight size={18} className="rtl:-scale-x-100" />
           </ButtonLink>
