@@ -85,3 +85,22 @@ export type ShoppingItem = {
   checked: boolean
   source: 'manual' | 'plan'
 }
+
+export type ChatRole = 'user' | 'assistant'
+
+export type AgentAction =
+  | { type: 'planner_add'; slug: string; day: string; slot: Slot; servings: number }
+  | { type: 'shopping_add'; items: string[] }
+  | { type: 'shopping_generate'; start: string; count: number }
+
+export type ChatReply = {
+  reply: string
+  recipes: RecipeSummary[]
+  actions: AgentAction[]
+}
+
+export type PantryMatch = {
+  recipe: RecipeSummary
+  have: string[]
+  missing: string[]
+}

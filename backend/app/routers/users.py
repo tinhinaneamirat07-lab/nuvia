@@ -1,10 +1,12 @@
-from fastapi import APIRouter, HTTPException, Query, Response, status
+from fastapi import APIRouter, HTTPException, Query, Request, Response, status
 from sqlalchemy import func, select
 
+from app.core.rate_limit import limiter
+from app.core.security import hash_password, verify_password
 from app.deps import DB, AdminUser, CurrentUser
 from app.models import User
-from app.schemas.user import AdminUserOut, AdminUserUpdate, Page, UserOut, UserUpdate
-from app.services.auth import clear_session_cookies
+from app.schemas.user import AdminUserOut, AdminUserUpdate, Page, PasswordChange, UserOut, UserUpdate
+from app.services.auth import clear_session_cookies, revoke_all, start_session
 
 router = APIRouter(tags=["users"])
 
@@ -16,6 +18,20 @@ def update_me(body: UserUpdate, user: CurrentUser, db: DB) -> User:
     db.commit()
     db.refresh(user)
     return user
+
+
+@router.put("/users/me/password", status_code=status.HTTP_204_NO_CONTENT)
+@limiter.limit("5/minute")
+def change_password(request: Request, body: PasswordChange, user: CurrentUser, db: DB, response: Response) -> Response:
+    """Checks the current password, then signs out every other device and opens a fresh session here."""
+    if not user.password_hash or not verify_password(body.current_password, user.password_hash):
+        raise HTTPException(status.HTTP_400_BAD_REQUEST, detail="Current password is incorrect")
+    user.password_hash = hash_password(body.new_password)
+    db.commit()
+    revoke_all(db, user.id)
+    start_session(db, response, user)
+    response.status_code = status.HTTP_204_NO_CONTENT
+    return response
 
 
 @router.delete("/users/me", status_code=status.HTTP_204_NO_CONTENT)

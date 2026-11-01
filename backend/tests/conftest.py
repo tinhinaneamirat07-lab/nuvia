@@ -5,6 +5,8 @@ import tempfile
 _db_file = os.path.join(tempfile.mkdtemp(), "test.db")
 os.environ["DATABASE_URL"] = f"sqlite:///{_db_file}"
 os.environ["JWT_SECRET"] = "test-secret-not-for-production-0123456789"
+# Tests never call the real AI provider, even when a key is present in .env.
+os.environ["GROQ_API_KEY"] = ""
 
 import pytest  # noqa: E402
 from fastapi.testclient import TestClient  # noqa: E402

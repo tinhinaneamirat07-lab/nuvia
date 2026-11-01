@@ -51,3 +51,9 @@ class RecipeDetail(RecipeSummary):
     ingredients: list[IngredientOut]
     steps: list[StepOut]
     is_favorite: bool = False
+
+
+class PantryMatch(BaseModel):
+    recipe: RecipeSummary
+    have: list[str]
+    missing: list[str]

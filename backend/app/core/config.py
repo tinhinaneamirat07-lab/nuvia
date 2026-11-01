@@ -21,7 +21,10 @@ class Settings(BaseSettings):
     # Comma-separated in .env, e.g. CORS_ORIGINS=http://localhost:5173,https://nuvia.app
     cors_origins: Annotated[list[str], NoDecode] = ["http://localhost:5173"]
 
+    # Cooking assistant (Groq, free tier). Without a key the assistant answers 503; the rest of the app works.
     groq_api_key: str = ""
+    groq_model: str = "openai/gpt-oss-120b"
+    groq_base_url: str = "https://api.groq.com/openai/v1"
 
     @field_validator("cors_origins", mode="before")
     @classmethod

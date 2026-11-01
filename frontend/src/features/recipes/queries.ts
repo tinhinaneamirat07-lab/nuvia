@@ -42,6 +42,7 @@ export function useRecipe(slug: string) {
   return useQuery({
     queryKey: recipeKeys.detail(slug),
     queryFn: () => api<RecipeDetail>(`/recipes/${encodeURIComponent(slug)}`),
+    enabled: Boolean(slug),
   })
 }
 

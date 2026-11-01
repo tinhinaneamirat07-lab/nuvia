@@ -68,3 +68,12 @@ Sur macOS / Linux, remplace `.venv\Scripts\Activate.ps1` par `source .venv/bin/a
 - Limitation de fréquence sur l'inscription et la connexion, messages d'erreur identiques pour « email inconnu » et « mauvais mot de passe ».
 - Routes admin vérifiées côté serveur, CORS limité aux origines de `CORS_ORIGINS`, en-têtes de sécurité HTTP.
 - Tous les secrets viennent de `.env`, qui n'est jamais commité. En production, l'API refuse de démarrer avec le `JWT_SECRET` par défaut.
+
+## Assistant IA (gratuit)
+
+1. Crée une clé sur https://console.groq.com/keys (offre gratuite, sans carte bancaire).
+2. Ajoute-la dans `.env` : `GROQ_API_KEY=...`
+3. Redémarre l’API. `GET /api/v1/assistant/status` doit répondre `{"available": true}`.
+
+Sans clé, l’assistant répond « non configuré » et le reste de l’API fonctionne. Les tests n’appellent jamais Groq.
+Le fonctionnement de l’agent est expliqué dans [docs/AGENT.md](../docs/AGENT.md).

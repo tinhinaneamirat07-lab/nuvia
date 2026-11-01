@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
 import { Container } from '@/components/ui/Container'
-import { Basket, CalendarCheck, Carrot, Check, Microphone, Translate } from '@/components/ui/icons'
+import { ArrowRight, Basket, CalendarCheck, Carrot, Check, Microphone, Translate } from '@/components/ui/icons'
 import { Reveal } from '@/components/ui/Reveal'
 import { useLang } from '@/hooks/useLocalized'
 import { cn } from '@/lib/cn'
@@ -98,6 +99,10 @@ export function Features() {
                 </IconTile>
                 <h3 className="font-display mt-5 text-[22px] leading-7 font-semibold">{t('features.pantry.title')}</h3>
                 <p className="mt-3 leading-relaxed text-ink-muted">{t('features.pantry.body')}</p>
+                <Link to="/fridge" className="mt-4 inline-flex min-h-11 items-center gap-1.5 font-semibold text-link hover:underline">
+                  {t('fridge.cta')}
+                  <ArrowRight size={16} className="rtl:-scale-x-100" />
+                </Link>
               </div>
             </article>
           </Reveal>

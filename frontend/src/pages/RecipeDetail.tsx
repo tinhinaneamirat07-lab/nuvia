@@ -17,6 +17,7 @@ import {
   Heart,
   Minus,
   Plus,
+  Sparkle,
   Warning,
   YoutubeLogo,
 } from '@/components/ui/icons'
@@ -304,6 +305,10 @@ export default function RecipeDetail() {
           <div className="mt-7 flex flex-wrap items-center gap-3">
             <AddToPlanner recipe={recipe} />
             <FavoriteButton recipe={recipe} />
+            <Link to={`/assistant?recipe=${recipe.slug}`} className={buttonClass({ variant: 'soft', size: 'lg' })}>
+              <Sparkle size={20} />
+              {t('chat.askAbout')}
+            </Link>
             {recipe.video_url && (
               <a href={recipe.video_url} target="_blank" rel="noreferrer" className={buttonClass({ variant: 'ghost' })}>
                 <YoutubeLogo size={20} weight="fill" className="text-danger" />

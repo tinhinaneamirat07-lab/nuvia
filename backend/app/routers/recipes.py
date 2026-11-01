@@ -4,8 +4,9 @@ from sqlalchemy.orm import selectinload
 
 from app.deps import DB, CurrentUser, OptionalUser
 from app.models import Favorite, Recipe, RecipeIngredient
-from app.schemas.recipe import Category, Cuisine, Difficulty, RecipeDetail, RecipeSummary
-from app.schemas.user import Page
+from app.schemas.recipe import Category, Cuisine, Difficulty, PantryMatch, RecipeDetail, RecipeSummary
+from app.schemas.user import Locale, Page
+from app.services import pantry
 
 router = APIRouter(tags=["recipes"])
 
@@ -62,6 +63,17 @@ def list_recipes(
     order = (Recipe.source != "nuvia", Recipe.id)  # hand-written recipes first
     items = db.scalars(query.order_by(*order).offset((page - 1) * page_size).limit(page_size)).all()
     return {"items": items, "total": total, "page": page, "page_size": page_size}
+
+
+@router.get("/recipes/match", response_model=list[PantryMatch])
+def match_recipes(
+    db: DB,
+    ingredients: str = Query(min_length=1, max_length=400, description="Comma-separated, e.g. 'poulet,riz,tomate'"),
+    lang: Locale = "fr",
+) -> list[dict]:
+    """Cook with what you have: recipes that use the most of these ingredients, and what is missing."""
+    names = [i.strip() for i in ingredients.split(",") if i.strip()][:20]
+    return [{"recipe": m.recipe, "have": m.have, "missing": m.missing} for m in pantry.match(db, names, lang)]
 
 
 @router.get("/recipes/{slug}", response_model=RecipeDetail)

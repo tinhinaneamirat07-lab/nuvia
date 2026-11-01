@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate } from 'react-router-dom'
 import { ButtonLink } from '@/components/ui/Button'
-import { Heart, SignOut } from '@/components/ui/icons'
+import { Heart, SignOut, UserCircle } from '@/components/ui/icons'
 import { useLogout, useMe } from '@/features/auth/queries'
 
 /** Login / sign-up buttons for visitors, an account menu for signed-in users. */
@@ -63,6 +63,18 @@ export function AccountMenu({ onNavigate }: { onNavigate?: () => void }) {
       {open && (
         <div role="menu" className="absolute end-0 top-full z-50 mt-2 w-60 rounded-2xl border border-line bg-surface-raised p-2 shadow-md">
           <p className="truncate px-3 py-2 text-sm text-ink-muted">{user.email}</p>
+          <Link
+            role="menuitem"
+            to="/account"
+            onClick={() => {
+              setOpen(false)
+              onNavigate?.()
+            }}
+            className={itemClass}
+          >
+            <UserCircle size={18} />
+            {t('account.menu')}
+          </Link>
           <Link
             role="menuitem"
             to="/favorites"

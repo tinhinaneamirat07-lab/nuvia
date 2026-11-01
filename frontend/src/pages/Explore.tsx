@@ -3,10 +3,10 @@ import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
 import type { Category, Cuisine, RecipeFilters } from '@/api/types'
 import { RecipeCard, RecipeCardSkeleton } from '@/components/RecipeCard'
-import { Button } from '@/components/ui/Button'
+import { Button, ButtonLink } from '@/components/ui/Button'
 import { Chip } from '@/components/ui/Chip'
 import { Container } from '@/components/ui/Container'
-import { CookingPot, MagnifyingGlass, Warning, X } from '@/components/ui/icons'
+import { Carrot, CookingPot, MagnifyingGlass, Warning, X } from '@/components/ui/icons'
 import { StateMessage } from '@/components/ui/StateMessage'
 import { useRecipeSearch } from '@/features/recipes/queries'
 import { useDebouncedValue } from '@/hooks/useDebouncedValue'
@@ -85,8 +85,16 @@ export default function Explore() {
 
   return (
     <Container className="py-10 md:py-14">
-      <h1 className="text-3xl font-semibold md:text-4xl">{t('explore.title')}</h1>
-      <p className="mt-2 text-ink-muted">{t('explore.subtitle')}</p>
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-semibold md:text-4xl">{t('explore.title')}</h1>
+          <p className="mt-2 text-ink-muted">{t('explore.subtitle')}</p>
+        </div>
+        <ButtonLink to="/fridge" variant="soft">
+          <Carrot size={18} />
+          {t('fridge.cta')}
+        </ButtonLink>
+      </div>
 
       <div className="relative mt-8">
         <label htmlFor="recipe-search" className="sr-only">
